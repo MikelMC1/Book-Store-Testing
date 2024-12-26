@@ -21,8 +21,7 @@ public class Manager extends Librarian implements Serializable {
 
 
     public Manager() throws IOException, ClassNotFoundException,
-            BookNotFoundException,
-            BillNotFoundException {
+            BookNotFoundException {
         super();
     }
 
@@ -260,16 +259,9 @@ public class Manager extends Librarian implements Serializable {
 
         super.Readbooks();
 
-        ArrayList<Book> booksbought = new ArrayList<>();
+        ArrayList<Book> books_bought = new ArrayList<>(super.getBooks());
 
-
-        for (Book book : super.getBooks()) {
-
-            booksbought.add(book);
-
-        }
-
-        return booksbought;
+        return books_bought;
 
     }
 
@@ -419,7 +411,7 @@ public class Manager extends Librarian implements Serializable {
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"))) {
 
-            int incomes = 0;
+            double incomes = 0;
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {

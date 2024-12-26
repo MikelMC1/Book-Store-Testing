@@ -33,11 +33,14 @@ public class Librarian extends Book implements Serializable {
         file = new File("bookstore.bin");
 
         if (!file.exists()) {
-            file.createNewFile();
+            if (file.createNewFile()) {
+                System.out.println("Created new bookstore.bin file.");
+            } else {
+                System.out.println("Failed to create bookstore.bin file.");
+            }
         } else {
             Readbooks();
         }
-
         BillFile = new File("BILL.txt");
         nrofbooksfile = new File("NrOfBooks.txt");
 
@@ -260,12 +263,8 @@ public class Librarian extends Book implements Serializable {
 
             isValid(date_of_transaction);
 
-            boolean isAvailable = false;
             boolean isOutOfStock = false;
             boolean isEnough = true;
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date transactionDate = dateFormat.parse(date_of_transaction);
 
 
             LocalDate currentDate = LocalDate.now();
@@ -291,12 +290,15 @@ public class Librarian extends Book implements Serializable {
                         } else if (quantity <= book.getStock()) {
                             book.setStock(book.getStock() - quantity);
                             writeBooksToFile();
+                            String billEntry = date_of_transaction + ", " +
+                                    book.getISBN() + ", " +
+                                    book.getTitle() + ", " +
+                                    quantity + ", " +
+                                    (book.getSelling_price() * quantity) + "\n";
 
-                            file.append(date_of_transaction + "," + " " + book.getISBN() + "," + " " + book.getTitle() +
-                                    "," + " " + quantity + "," + " " + String.valueOf(book.getSelling_price() * quantity)
-                                    + "\n");
+                            file.append(billEntry);
 
-                            nrOfBooks(quantity, date_of_transaction);
+                            nr_Of_Books(quantity, date_of_transaction);
 
 
                             return date_of_transaction + "," + book.getISBN() + "," + book.getTitle() +
@@ -490,7 +492,7 @@ public class Librarian extends Book implements Serializable {
     }
 
 
-    public void nrOfBooks(int quantity, String date) throws IOException, ParseException {
+    public void nr_Of_Books(int quantity, String date) throws IOException, ParseException {
         File file = new File("NrOfBooks.txt");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date transactionDate = dateFormat.parse(date);
