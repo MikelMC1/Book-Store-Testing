@@ -11,12 +11,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws BillNotFoundException, ISBNnotValidException, DateNotValidException {
+    public static void main(String[] args) throws BillNotFoundException, DateNotValidException {
        
 
         try {
@@ -58,10 +56,9 @@ public class Main {
                         System.out.println("Enter book category:");
                         String bookCategory = sc.nextLine();
 
-                        LocalDate currentDate = LocalDate.now();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMMM/yyyy");
-                        String purchasedDate = currentDate.format(formatter);
-                        System.out.println("Purchased date set to: " + purchasedDate);
+                        System.out.println("Enter purchase date:");
+                        String purchasedDate = sc.nextLine();
+
 
                         System.out.println("Enter purchased price:");
                         while (!sc.hasNextDouble()) {
@@ -159,8 +156,8 @@ public class Main {
         } catch (IOException | ClassNotFoundException | ParseException e) {
             System.out.println(e.getMessage());
 
-        } catch (BookNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (BookNotFoundException | ISBNnotValidException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

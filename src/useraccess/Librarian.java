@@ -22,20 +22,18 @@ public class Librarian extends Book implements Serializable {
 
     private final File BillFile;
 
-    private final  File nrofbooksfile;
+    private final File nrofbooksfile;
 
 
-    public Librarian() throws IOException, ClassNotFoundException,
-            BookNotFoundException, BillNotFoundException {
+    public Librarian() throws IOException, ClassNotFoundException {
 
 
         books = new ArrayList<>();
 
         file = new File("bookstore.bin");
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.createNewFile();
-
         } else {
             Readbooks();
         }
@@ -50,7 +48,7 @@ public class Librarian extends Book implements Serializable {
         return this.books;
     }
 
-    public void Readbooks() throws IOException, ClassNotFoundException, BookNotFoundException {
+    public void Readbooks() throws IOException, ClassNotFoundException {
 
         if (!((file.length()) == 0)) {
 
@@ -70,11 +68,11 @@ public class Librarian extends Book implements Serializable {
         objectOutput.close();
     }
 
-    public void addBookstolist(Book book){
+    public void addBookstolist(Book book) {
         this.books.add(book);
     }
 
-    public String getMonthlyTotal_books(String userid, String startDate, String endDate) throws IOException, DateNotValidException, ParseException, BookNotFoundException {
+    public String getMonthlyTotal_books(String startDate, String endDate) throws IOException, DateNotValidException, ParseException, BookNotFoundException {
 
         isValid(startDate);
         isValid(endDate);
@@ -89,28 +87,25 @@ public class Librarian extends Book implements Serializable {
         }
 
 
-        if(!((nrofbooksfile.length()) == 0)) {
+        if (!((nrofbooksfile.length()) == 0)) {
 
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader("NrOfBooks.txt"))) {
                 String line;
 
                 int nr_of_books = 0;
-                boolean userfound = false;
+
 
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] parts = line.split(",");
 
-                    if (parts.length == 3) {
-                        Date date = dateFormat.parse(parts[1]);
+                    if (parts.length == 2) {
+                        Date date = dateFormat.parse(parts[0]);
 
-                        if (parts[0].equals(userid)) {
-                            userfound = true;
-
-                            if (date.compareTo(start) >= 0 && date.compareTo(end) <= 0) {
-                                nr_of_books += Integer.parseInt(parts[2]);
-                            }
+                        if (date.compareTo(start) >= 0 && date.compareTo(end) <= 0) {
+                            nr_of_books += Integer.parseInt(parts[1]);
                         }
                     }
+
                 }
 
                 bufferedReader.close();
@@ -122,19 +117,17 @@ public class Librarian extends Book implements Serializable {
 
                 return String.valueOf(nr_of_books);
             }
-        }
-
-        else{
+        } else {
             throw new BookNotFoundException("There have been no books sold till now");
         }
     }
 
-    public String getDailyTotal_books(String userid, String date) throws IOException, DateNotValidException, ParseException,BookNotFoundException {
+    public String getDailyTotal_books(String date) throws IOException, DateNotValidException, ParseException, BookNotFoundException {
 
         isValid(date);
 
 
-        if(!((nrofbooksfile.length()) == 0)) {
+        if (!((nrofbooksfile.length()) == 0)) {
 
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(nrofbooksfile))) {
                 String line;
@@ -143,29 +136,22 @@ public class Librarian extends Book implements Serializable {
                 Date date1 = dateFormat.parse(date);
 
                 int nr_of_books = 0;
-                boolean userfound = false;
+
 
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] parts = line.split(",");
 
-                    if (parts.length == 3) {
-                        Date date2 = dateFormat.parse(parts[1]);
+                    if (parts.length == 2) {
+                        Date date2 = dateFormat.parse(parts[0]);
 
-                        if (parts[0].equals(userid)) {
-
-                            userfound = true;
-
-                            if (date2.compareTo(date1) == 0) {
-                                nr_of_books += Integer.parseInt(parts[2]);
-                            }
+                        if (date2.compareTo(date1) == 0) {
+                            nr_of_books += Integer.parseInt(parts[1]);
                         }
+
                     }
                 }
 
                 bufferedReader.close();
-
-
-
 
                 if (nr_of_books == 0) {
 
@@ -175,32 +161,29 @@ public class Librarian extends Book implements Serializable {
 
                 return String.valueOf(nr_of_books);
             }
-        }
-
-        else {
+        } else {
             throw new BookNotFoundException("There have been no books sold till now");
         }
     }
 
-    public String getTotal_books() throws IOException,BookNotFoundException {
+    public String getTotal_books() throws IOException, BookNotFoundException {
 
-        if(!((nrofbooksfile.length()) == 0)) {
+        if (!((nrofbooksfile.length()) == 0)) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(nrofbooksfile))) {
 
                 String line;
                 int nr_of_books = 0;
-                boolean librarianfound = false;
+
 
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] parts = line.split(",");
-                    nr_of_books += Integer.parseInt(parts[2]);
+                    nr_of_books += Integer.parseInt(parts[1]);
 
 
-                    }
+                }
 
 
                 bufferedReader.close();
-
 
 
                 if (nr_of_books == 0) {
@@ -209,8 +192,7 @@ public class Librarian extends Book implements Serializable {
 
                 return String.valueOf(nr_of_books);
             }
-        }
-        else {
+        } else {
             throw new BookNotFoundException("There have been no books sold till now");
         }
 
@@ -252,8 +234,6 @@ public class Librarian extends Book implements Serializable {
 
         return booksbought;
     }
-
-
 
 
     public boolean isValid(String date) throws DateNotValidException {
@@ -341,7 +321,7 @@ public class Librarian extends Book implements Serializable {
 
             } catch (IOException e) {
                 throw new IOException(e);
-            }  finally {
+            } finally {
                 if (file != null) {
                     try {
                         file.close();
@@ -357,7 +337,7 @@ public class Librarian extends Book implements Serializable {
     public String nrOfBillsWithoutfilters() throws IOException, BillNotFoundException {
 
 
-        if(!((BillFile.length()) == 0)) {
+        if (!((BillFile.length()) == 0)) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(BillFile))) {
 
                 int nrofbills = 0;
@@ -370,9 +350,9 @@ public class Librarian extends Book implements Serializable {
 
                     if (parts.length == 5) {
 
-                         if (!line.trim().isEmpty()) {
-                                nrofbills++;
-                            }
+                        if (!line.trim().isEmpty()) {
+                            nrofbills++;
+                        }
                     }
 
                 }
@@ -390,9 +370,7 @@ public class Librarian extends Book implements Serializable {
                 // Handle the case where the file is not found (empty file)
                 return "0";
             }
-        }
-
-        else {
+        } else {
             throw new BillNotFoundException("There have been no books sold till now");
         }
     }
@@ -401,7 +379,7 @@ public class Librarian extends Book implements Serializable {
 
         isValid(date);
 
-        if(!(BillFile.length() == 0)) {
+        if (!(BillFile.length() == 0)) {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date1 = dateFormat.parse(date);
@@ -419,21 +397,19 @@ public class Librarian extends Book implements Serializable {
                     if (parts.length == 5) {
 
 
-                            Date date2 = dateFormat.parse(parts[0]);
+                        Date date2 = dateFormat.parse(parts[0]);
 
-                            if (date1.compareTo(date2) == 0) {
+                        if (date1.compareTo(date2) == 0) {
 
-                                if (!line.trim().isEmpty()) {
-                                    nrofbills++;
-                                }
+                            if (!line.trim().isEmpty()) {
+                                nrofbills++;
                             }
                         }
                     }
-
+                }
 
 
                 bufferedReader.close();
-
 
 
                 if (nrofbills == 0) {
@@ -446,14 +422,13 @@ public class Librarian extends Book implements Serializable {
                 // Handle the case where the file is not found (empty file)
                 return "0";
             }
-        }
-        else {
+        } else {
             throw new BillNotFoundException("There have been no books sold till now");
         }
 
     }
 
-    public String nrOfMonthlyBills(String userid, String startdate, String enddate) throws IOException, ParseException, DateNotValidException,
+    public String nrOfMonthlyBills(String startdate, String enddate) throws IOException, ParseException, DateNotValidException,
             BillNotFoundException {
 
         isValid(startdate);
@@ -469,7 +444,7 @@ public class Librarian extends Book implements Serializable {
             throw new DateNotValidException("Starting date can not be after end date");
         }
 
-        if(!(BillFile.length() == 0)) {
+        if (!(BillFile.length() == 0)) {
 
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(BillFile))) {
 
@@ -483,14 +458,14 @@ public class Librarian extends Book implements Serializable {
 
                     if (parts.length == 5) {
 
-                            Date date = dateFormat.parse(parts[0]);
+                        Date date = dateFormat.parse(parts[0]);
 
-                            if (date.compareTo(start) >= 0 && date.compareTo(end) <= 0) {
+                        if (date.compareTo(start) >= 0 && date.compareTo(end) <= 0) {
 
-                                if (!line.trim().isEmpty()) {
-                                    nrofbills++;
-                                }
+                            if (!line.trim().isEmpty()) {
+                                nrofbills++;
                             }
+                        }
 
                     }
                 }
@@ -508,25 +483,55 @@ public class Librarian extends Book implements Serializable {
                 // Handle the case where the file is not found (empty file)
                 return "0";
             }
-        }
-
-        else {
+        } else {
             throw new BillNotFoundException("There have been no books sold till now");
         }
 
     }
 
 
+    public void nrOfBooks(int quantity, String date) throws IOException, ParseException {
+        File file = new File("NrOfBooks.txt");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date transactionDate = dateFormat.parse(date);
 
+        // Read all lines from the file
+        List<String> lines = new ArrayList<>();
+        boolean updated = false;
 
-    public void nrOfBooks(int quantity, String date) throws IOException {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split(",");
 
+                if (parts.length == 2) {
+                    Date fileDate = dateFormat.parse(parts[0]);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nrofbooksfile,true))) {
-            writer.append(date+ "," + quantity);
-            writer.close();
+                    // Update the line if the date matches
+                    if (fileDate.compareTo(transactionDate) == 0) {
+                        int currentQuantity = Integer.parseInt(parts[1]);
+                        int newQuantity = currentQuantity + quantity;
+                        lines.add(parts[0] + "," + newQuantity); // Update the line
+                        updated = true;
+                    } else {
+                        lines.add(line); // Keep the line as is
+                    }
+                }
+            }
         }
 
+        // If the date was not found, add a new line
+        if (!updated) {
+            lines.add(date + "," + quantity);
+        }
+
+        // Write all lines back to the file
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
+            for (String updatedLine : lines) {
+                bufferedWriter.write(updatedLine);
+                bufferedWriter.newLine();
+            }
+        }
     }
 
 }
