@@ -1,0 +1,16 @@
+name: Qodana Scan
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  qodana:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Qodana
+        uses: JetBrains/qodana-action@v2024.2
+        with:
+          token: ${{ secrets.QODANA_TOKEN }}
