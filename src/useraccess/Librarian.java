@@ -39,7 +39,7 @@ public class Librarian extends Book implements Serializable {
                 System.out.println("Failed to create bookstore.bin file.");
             }
         } else {
-            Readbooks();
+            Read_books();
         }
         BillFile = new File("BILL.txt");
         nrofbooksfile = new File("NrOfBooks.txt");
@@ -51,12 +51,13 @@ public class Librarian extends Book implements Serializable {
         return this.books;
     }
 
-    public void Readbooks() throws IOException, ClassNotFoundException {
+    public void Read_books() throws IOException, ClassNotFoundException {
 
         if (!((file.length()) == 0)) {
 
             FileInputStream fileInput = new FileInputStream(file);
             ObjectInputStream objectInput = new ObjectInputStream(fileInput);
+
             books = (ArrayList<Book>) objectInput.readObject();
             fileInput.close();
             objectInput.close();
@@ -202,7 +203,7 @@ public class Librarian extends Book implements Serializable {
 
     }
 
-    public ArrayList<Book> ItemsBought(String startdate, String enddate) throws BookNotFoundException, IOException, ClassNotFoundException, DateNotValidException, ParseException {
+    public ArrayList<Book> ItemsBought(String startdate, String enddate) throws IOException, ClassNotFoundException, DateNotValidException, ParseException {
 
         isValid(startdate);
         isValid(enddate);
@@ -218,7 +219,7 @@ public class Librarian extends Book implements Serializable {
         }
 
 
-        Readbooks();
+        Read_books();
 
 
         ArrayList<Book> booksbought = new ArrayList<>();
@@ -239,7 +240,7 @@ public class Librarian extends Book implements Serializable {
     }
 
 
-    public boolean isValid(String date) throws DateNotValidException {
+    public void isValid(String date) throws DateNotValidException {
 
         DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setLenient(false);
@@ -253,8 +254,7 @@ public class Librarian extends Book implements Serializable {
                     + " " + "dd/MM/yyyy");
         }
 
-        // If the parsing is successful (no exception thrown), the date is considered valid
-        return true;
+
     }
 
     public String Bill(String date_of_transaction, String title, int quantity) throws
@@ -302,7 +302,7 @@ public class Librarian extends Book implements Serializable {
 
 
                             return date_of_transaction + "," + book.getISBN() + "," + book.getTitle() +
-                                    "," + quantity + "," + String.valueOf(book.getSelling_price() * quantity);
+                                    "," + quantity + "," + (book.getSelling_price() * quantity);
                         } else {
                             isEnough = false;
                             break;
@@ -328,7 +328,7 @@ public class Librarian extends Book implements Serializable {
                     try {
                         file.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.out.println(e.getMessage());
                     }
                 }
             }
@@ -338,13 +338,11 @@ public class Librarian extends Book implements Serializable {
 
     public String nrOfBillsWithoutfilters() throws IOException, BillNotFoundException {
 
-
         if (!((BillFile.length()) == 0)) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(BillFile))) {
 
                 int nrofbills = 0;
                 String line;
-                boolean userfound = false;
 
                 while ((line = bufferedReader.readLine()) != null) {
 
@@ -430,16 +428,16 @@ public class Librarian extends Book implements Serializable {
 
     }
 
-    public String nrOfMonthlyBills(String startdate, String enddate) throws IOException, ParseException, DateNotValidException,
+    public String nrOfMonthlyBills(String start_date, String end_date) throws IOException, ParseException, DateNotValidException,
             BillNotFoundException {
 
-        isValid(startdate);
-        isValid(enddate);
+        isValid(start_date);
+        isValid(end_date);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        Date start = dateFormat.parse(startdate);
-        Date end = dateFormat.parse(enddate);
+        Date start = dateFormat.parse(start_date);
+        Date end = dateFormat.parse(end_date);
 
 
         if (start.compareTo(end) > 0) {
