@@ -16,12 +16,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws BillNotFoundException, ISBNnotValidException, DateNotValidException, BookNotFoundException {
-        Manager manager = null;
+    public static void main(String[] args) throws BillNotFoundException, ISBNnotValidException, DateNotValidException {
+       
 
         try {
             Scanner sc = new Scanner(System.in);
-            manager = new Manager();
+            Manager manager = new Manager();
 
             while (true) {
                 System.out.println("\nChoose an option:");
@@ -157,9 +157,8 @@ public class Main {
                 }
             }
         } catch (IOException | ClassNotFoundException | ParseException e) {
-            e.printStackTrace();
-        } catch (DateNotValidException | ISBNnotValidException e) {
             System.out.println(e.getMessage());
+
         } catch (BookNotFoundException e) {
             throw new RuntimeException(e);
         }
