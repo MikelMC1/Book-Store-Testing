@@ -5,6 +5,7 @@ package book;//
 
 import exceptions.ISBNnotValidException;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Book implements Serializable {
@@ -17,6 +18,8 @@ public class Book implements Serializable {
     private double purchased_price;
     private double selling_price;
     private int stock;
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public Book(String ISBN, String author, String title, String book_category,
