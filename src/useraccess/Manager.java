@@ -9,8 +9,6 @@ import exceptions.ISBNnotValidException;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.io.File;
@@ -40,19 +38,21 @@ public class Manager extends Librarian implements Serializable {
             ISBNnotValidException, DateNotValidException,
             BookNotFoundException {
 
+        if (book.getISBN().length() < 6 || book.getISBN().length() > 13) {
+            throw new ISBNnotValidException("ISBN should be at least 6 " +
+                    "characters long");
+        }
+
+        if (book.getStock() <= 0) {
+            throw new IOException("Stock cannot be less than one when you add" +
+                    "a book");
+        }
+
         isValid(book.getPurchased_date());
 
         super.Read_books();
 
         boolean exists = false;
-
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String formattedCurrentDate = currentDate.format(formatter);
-
-        if (!formattedCurrentDate.equals(book.getPurchased_date())) {
-            throw new DateNotValidException("Put the current date");
-        }
 
         for (Book book1 : super.getBooks()) {
 
@@ -82,8 +82,6 @@ public class Manager extends Librarian implements Serializable {
         System.out.println(book);
 
     }
-
-
 
 
     public String getMonthly_Statistics_of_BooksSold(String startDate, String endDate) throws IOException, ParseException, DateNotValidException, BillNotFoundException {

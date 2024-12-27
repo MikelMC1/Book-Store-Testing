@@ -1,6 +1,5 @@
 package useraccess;
 
-
 import book.Book;
 import exceptions.BillNotFoundException;
 import exceptions.BookNotFoundException;
@@ -10,9 +9,8 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
+
 
 public class Librarian extends Book implements Serializable {
 
@@ -249,8 +247,10 @@ public class Librarian extends Book implements Serializable {
             // Attempt to parse the given date string using the specified date format
             sdf.parse(date);
         } catch (ParseException e) {
-            // If a ParseException is caught, throw a custom exception indicating that the date is not valid
-            throw new DateNotValidException("Invalid date format. The format required for the date to be entered is"
+            // If a ParseException is caught, throw a custom exception
+            // indicating that the date is not valid
+            throw new DateNotValidException("Invalid date format. " +
+                    "The format required for the date to be entered is"
                     + " " + "dd/MM/yyyy");
         }
 
@@ -265,15 +265,6 @@ public class Librarian extends Book implements Serializable {
 
             boolean isOutOfStock = false;
             boolean isEnough = true;
-
-
-            LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String formattedCurrentDate = currentDate.format(formatter);
-
-            if (!formattedCurrentDate.equals(date_of_transaction)) {
-                throw new DateNotValidException("Transaction date should be equal to the current date.");
-            }
 
             BufferedWriter file = null;
 
@@ -336,7 +327,7 @@ public class Librarian extends Book implements Serializable {
 
     }
 
-    public String nrOfBillsWithoutfilters() throws IOException, BillNotFoundException {
+    public String nr_Of_Bills_Without_filters() throws IOException, BillNotFoundException {
 
         if (!((BillFile.length()) == 0)) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(BillFile))) {
