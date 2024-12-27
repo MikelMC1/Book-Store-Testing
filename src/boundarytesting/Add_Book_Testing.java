@@ -241,13 +241,14 @@ public class Add_Book_Testing {
 
     @Test
     public void test_for_equal_ISBNs() throws ISBNnotValidException,
-            IOException, DateNotValidException, BookNotFoundException, ClassNotFoundException {
+            IOException, DateNotValidException, BookNotFoundException,
+            ClassNotFoundException {
 
         Book book = new Book("1234tp",
                 "Albert Kamy",
                 "The stranger",
                 "Roman",
-                "28-12/2024",
+                "28/12/2024",
                 20,
                 30,
                 5);
@@ -266,9 +267,12 @@ public class Add_Book_Testing {
                 ISBNnotValidException.class,
                 ( () -> manager.addBooks(book2)));
 
-        assertEquals("ISBN should be unique for different books,so if you\n" +
-                "want to use ISBN =" + " " + book2.getISBN() + " " + "," + "you can use it for the book of title" +
-                " " + book2.getTitle() + " " + "written by" + " " + book2.getAuthor(),
+        assertEquals("ISBN should be unique for different books,so " +
+                        "if you\n" +
+                "want to use ISBN =" + " " + book.getISBN() + " " + "," +
+                        "you can use it for the book of title" +
+                " " + book.getTitle() + " " + "written by" + " " +
+                        book.getAuthor(),
                 exception.getMessage());
     }
 }
