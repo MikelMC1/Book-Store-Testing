@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws BillNotFoundException, DateNotValidException {
-       
+
 
         try {
             Scanner sc = new Scanner(System.in);
@@ -41,6 +41,10 @@ public class Main {
 
                 int choice = sc.nextInt();
                 sc.nextLine(); // Consume leftover newline
+                if(choice == 0) {
+                    System.out.println("Exit");
+                    break;
+                }
 
                 switch (choice) {
                     case 1:
@@ -123,7 +127,7 @@ public class Main {
                         break;
 
                     case 5:
-                        System.out.println(manager.nrOfBillsWithoutfilters());
+                        System.out.println(manager.nr_Of_Bills_Without_filters());
                         break;
 
                     case 6:
@@ -148,15 +152,14 @@ public class Main {
                         System.out.println("Monthly statistics of books bought retrieved.");
                         break;
 
-                    default:
+                        default:
                         System.out.println("Invalid choice. Please select a valid option.");
                         break;
                 }
             }
-        } catch (IOException | ClassNotFoundException | ParseException e) {
-            System.out.println(e.getMessage());
-
-        } catch (BookNotFoundException | ISBNnotValidException e) {
+        }
+        catch (IOException | ClassNotFoundException | ParseException  |
+        BookNotFoundException  | ISBNnotValidException e) {
             System.out.println(e.getMessage());
         }
     }

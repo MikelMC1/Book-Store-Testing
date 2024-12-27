@@ -42,7 +42,7 @@ public class Manager extends Librarian implements Serializable {
 
         isValid(book.getPurchased_date());
 
-        super.Readbooks();
+        super.Read_books();
 
         boolean exists = false;
 
@@ -79,7 +79,7 @@ public class Manager extends Librarian implements Serializable {
         }
 
         super.writeBooksToFile();
-        System.out.println(book.toString());
+        System.out.println(book);
 
     }
 
@@ -133,8 +133,9 @@ public class Manager extends Librarian implements Serializable {
         bufferedReader.close();
 
 
-        if (result.length() == 0) {
-            return "No books are sold from" + startDate + " " + "to" + " " + endDate;
+        if (result.isEmpty()) {
+            return "No books are sold from" + startDate + " " + "to" + 
+                    " " + endDate;
         }
 
 
@@ -176,7 +177,7 @@ public class Manager extends Librarian implements Serializable {
         bufferedReader.close();
 
 
-        if (result.length() == 0) {
+        if (result.isEmpty()) {
             return "No books are sold during" + " " + date;
         }
 
@@ -209,7 +210,7 @@ public class Manager extends Librarian implements Serializable {
 
             bufferedReader.close();
 
-            if (result.length() == 0) {
+            if (result.isEmpty()) {
                 return "No books are sold till now";
             }
 
@@ -223,7 +224,7 @@ public class Manager extends Librarian implements Serializable {
 
         isValid(date);
 
-        super.Readbooks();
+        super.Read_books();
 
         ArrayList<Book> booksbought = new ArrayList<>();
 
@@ -254,14 +255,14 @@ public class Manager extends Librarian implements Serializable {
         return booksbought;
     }
 
-    public ArrayList<Book> Statistics_of_BooksBought_without_Filters() throws ParseException, IOException,
-            ClassNotFoundException, BookNotFoundException {
+    public ArrayList<Book> Statistics_of_BooksBought_without_Filters() throws IOException,
+            ClassNotFoundException {
 
-        super.Readbooks();
+        super.Read_books();
 
-        ArrayList<Book> books_bought = new ArrayList<>(super.getBooks());
+        return new ArrayList<>(super.getBooks());
 
-        return books_bought;
+       
 
     }
 
@@ -281,7 +282,7 @@ public class Manager extends Librarian implements Serializable {
         }
 
 
-        super.Readbooks();
+        super.Read_books();
 
         ArrayList<Book> booksbought = new ArrayList<>();
 
@@ -345,7 +346,7 @@ public class Manager extends Librarian implements Serializable {
         }
     }
 
-    public String dailyincomes(String date) throws IOException,
+    public String daily_incomes(String date) throws IOException,
             ParseException, DateNotValidException, BillNotFoundException {
 
         isValid(date);
@@ -502,23 +503,24 @@ public class Manager extends Librarian implements Serializable {
 
 
 
-    public double getTotalCostAdmin(String startdate, String enddate) throws DateNotValidException, ParseException, BookNotFoundException, IOException, ClassNotFoundException {
+    public double getTotalCostAdmin(String start_date, String end_date) throws DateNotValidException, ParseException
+    ,IOException, ClassNotFoundException {
 
-        isValid(startdate);
-        isValid(enddate);
+        isValid(start_date);
+        isValid(end_date);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 
-        Date start = dateFormat.parse(startdate);
-        Date end = dateFormat.parse(enddate);
+        Date start = dateFormat.parse(start_date);
+        Date end = dateFormat.parse(end_date);
 
 
         if (start.compareTo(end) > 0) {
             throw new DateNotValidException("Starting date can not be after end date");
         }
 
-        super.Readbooks();
+        super.Read_books();
 
         double totalcost = 0;
 
@@ -531,15 +533,15 @@ public class Manager extends Librarian implements Serializable {
 
     }
 
-    public double totalIncomesAdmin(String startdate, String enddate) throws IOException, BookNotFoundException, DateNotValidException, ParseException, BillNotFoundException {
+    public double totalIncomesAdmin(String start_date, String end_date) throws IOException, BookNotFoundException, DateNotValidException, ParseException, BillNotFoundException {
 
-        isValid(startdate);
-        isValid(enddate);
+        isValid(start_date);
+        isValid(end_date);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        Date start = dateFormat.parse(startdate);
-        Date end = dateFormat.parse(enddate);
+        Date start = dateFormat.parse(start_date);
+        Date end = dateFormat.parse(end_date);
 
         if (start.compareTo(end) > 0) {
             throw new DateNotValidException("Starting date can not be after end date");
@@ -549,7 +551,7 @@ public class Manager extends Librarian implements Serializable {
         readFile();
 
         BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"));
-        StringBuilder stringBuilder = new StringBuilder();
+        
 
         String line;
         int numberofbooks = 0;
@@ -575,7 +577,8 @@ public class Manager extends Librarian implements Serializable {
         }
 
         if (numberofbooks == 0) {
-            throw new BookNotFoundException("No books are sold from" + " " + startdate + " " + "to" + " " + enddate);
+            throw new BookNotFoundException("No books are sold from" + " " + 
+                    start_date + " " + "to" + " " + end_date);
         }
 
         return totalincomes;
@@ -584,12 +587,11 @@ public class Manager extends Librarian implements Serializable {
 
 
 
-    public double profit(String startdate, String enddate) throws DateNotValidException, BookNotFoundException, ParseException, IOException, ClassNotFoundException, BillNotFoundException {
+    public double profit(String start_date, String end_date) throws DateNotValidException, BookNotFoundException, ParseException, IOException, ClassNotFoundException, BillNotFoundException {
 
 
-        double profit =  totalIncomesAdmin(startdate,enddate) - getTotalCostAdmin(startdate,enddate);
+        return totalIncomesAdmin(start_date,end_date) - getTotalCostAdmin(start_date,end_date);
 
-        return profit;
 
     }
 
