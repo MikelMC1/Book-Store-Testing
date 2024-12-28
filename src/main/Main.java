@@ -135,7 +135,7 @@ public class Main {
                         String startStatsDate = sc.nextLine();
                         System.out.println("Enter end date (dd/MM/yyyy):");
                         String endStatsDate = sc.nextLine();
-                        manager.getMonthly_Statistics_of_BooksSold(startStatsDate, endStatsDate);
+                        System.out.println(manager.getMonthly_Statistics_of_BooksSold(startStatsDate, endStatsDate));
                         System.out.println("Monthly statistics retrieved.");
                         break;
 

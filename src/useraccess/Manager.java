@@ -96,7 +96,8 @@ public class Manager extends Librarian implements Serializable {
 
 
         if (start.compareTo(end) > 0) {
-            throw new DateNotValidException("Starting date can not be after end date");
+            throw new DateNotValidException("Starting date can not be after " +
+                    "end date");
         }
 
         readFile();
@@ -108,10 +109,6 @@ public class Manager extends Librarian implements Serializable {
         String line;
 
 
-        if (start.compareTo(end) > 0) {
-            throw new DateNotValidException("Starting date can not be after end date");
-        }
-
         while ((line = bufferedReader.readLine()) != null) {
 
             String[] parts = line.split(",");
@@ -122,7 +119,14 @@ public class Manager extends Librarian implements Serializable {
 
                 if (date2.compareTo(start) >= 0 && date2.compareTo(end) <= 0) {
 
-                    result.append(line).append("\n");
+                    result.append(parts[0])
+                            .append(",")
+                            .append(parts[2])
+                            .append(",")
+                            .append(parts[3])
+                            .append(" ")
+                            .append("book/s")
+                            .append("\n");
                 }
 
             }
@@ -132,11 +136,11 @@ public class Manager extends Librarian implements Serializable {
 
 
         if (result.isEmpty()) {
-            return "No books are sold from" + startDate + " " + "to" + 
+            return "No books are sold from" + " " + startDate + " " + "to" +
                     " " + endDate;
         }
 
-
+        result.setLength(result.length() - 1);
         return result.toString();
 
     }
