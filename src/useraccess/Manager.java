@@ -159,8 +159,6 @@ public class Manager extends Librarian implements Serializable {
 
         StringBuilder result = new StringBuilder();
 
-
-
         while ((line = bufferedReader.readLine()) != null) {
             String[] parts = line.split(",");
 
@@ -171,7 +169,14 @@ public class Manager extends Librarian implements Serializable {
 
                 if (date2.compareTo(date1) == 0) {
 
-                    result.append(line).append("\n");
+                    result.append(parts[0])
+                            .append(",")
+                            .append(parts[2])
+                            .append(",")
+                            .append(parts[3])
+                            .append(" ")
+                            .append("book/s")
+                            .append("\n");
                 }
             }
         }
@@ -183,7 +188,7 @@ public class Manager extends Librarian implements Serializable {
             return "No books are sold during" + " " + date;
         }
 
-
+        result.setLength(result.length() - 1);
         return result.toString();
 
     }
@@ -216,6 +221,7 @@ public class Manager extends Librarian implements Serializable {
                 return "No books are sold till now";
             }
 
+            result.setLength(result.length() -1);
             return result.toString();
         }
     }
