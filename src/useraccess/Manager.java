@@ -234,7 +234,7 @@ public class Manager extends Librarian implements Serializable {
 
         super.Read_books();
 
-        ArrayList<Book> booksbought = new ArrayList<>();
+        ArrayList<Book> books_bought = new ArrayList<>();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date1 = dateFormat.parse(date);
@@ -248,7 +248,7 @@ public class Manager extends Librarian implements Serializable {
 
             if (date1.equals(date2)) {
 
-                booksbought.add(book);
+                books_bought.add(book);
                 number_of_books++;
 
             }
@@ -260,7 +260,7 @@ public class Manager extends Librarian implements Serializable {
         }
 
 
-        return booksbought;
+        return books_bought;
     }
 
     public ArrayList<Book> Statistics_of_BooksBought_without_Filters() throws IOException,
@@ -269,8 +269,6 @@ public class Manager extends Librarian implements Serializable {
         super.Read_books();
 
         return new ArrayList<>(super.getBooks());
-
-       
 
     }
 
@@ -354,7 +352,7 @@ public class Manager extends Librarian implements Serializable {
         }
     }
 
-    public String daily_incomes(String date) throws IOException,
+    public double daily_incomes(String date) throws IOException,
             ParseException, DateNotValidException, BillNotFoundException {
 
         isValid(date);
@@ -380,7 +378,7 @@ public class Manager extends Librarian implements Serializable {
                      if (date1.compareTo(date2) == 0) {
 
                             if (!line.trim().isEmpty()) {
-                                incomes += Integer.parseInt(parts[4]);
+                                incomes += Double.parseDouble(parts[4]);
                             }
                         }
                     }
@@ -389,15 +387,15 @@ public class Manager extends Librarian implements Serializable {
 
             bufferedReader.close();
 
-            return String.valueOf(incomes);
+            return incomes;
 
         } catch (FileNotFoundException e) {
             // Handle the case where the file is not found (empty file)
-            return "0";
+            return 0;
         }
     }
 
-    public String monthlyincomes(String startdate, String enddate) throws IOException,
+    public String monthly_incomes(String startdate, String enddate) throws IOException,
             ParseException, DateNotValidException, BillNotFoundException {
 
         isValid(startdate);
@@ -407,7 +405,6 @@ public class Manager extends Librarian implements Serializable {
 
         Date start = dateFormat.parse(startdate);
         Date end = dateFormat.parse(enddate);
-
 
 
         if (start.compareTo(end) > 0) {
