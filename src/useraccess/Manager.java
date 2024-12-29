@@ -5,7 +5,6 @@ import exceptions.BillNotFoundException;
 import exceptions.BookNotFoundException;
 import exceptions.DateNotValidException;
 import exceptions.ISBNnotValidException;
-
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,8 +43,8 @@ public class Manager extends Librarian implements Serializable {
         }
 
         if (book.getStock() <= 0) {
-            throw new IOException("Stock cannot be less than one when you add" +
-                    "a book");
+            throw new IOException("Stock cannot be less than one when you " +
+                    "add" + "a book");
         }
 
         isValid(book.getPurchased_date());
@@ -160,8 +159,8 @@ public class Manager extends Librarian implements Serializable {
         StringBuilder result = new StringBuilder();
 
         while ((line = bufferedReader.readLine()) != null) {
-            String[] parts = line.split(",");
 
+            String[] parts = line.split(",");
 
             if (parts.length == 5) {
 
@@ -189,6 +188,7 @@ public class Manager extends Librarian implements Serializable {
         }
 
         result.setLength(result.length() - 1);
+
         return result.toString();
 
     }
@@ -415,8 +415,6 @@ public class Manager extends Librarian implements Serializable {
 
         readFile();
 
-
-
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"))) {
 
             double incomes = 0.0;
@@ -442,8 +440,6 @@ public class Manager extends Librarian implements Serializable {
             }
 
             bufferedReader.close();
-
-
 
             return incomes;
 
