@@ -153,13 +153,15 @@ public class Main {
                         System.out.println("Monthly statistics of books bought retrieved.");
                         break;
 
-                        default:
-                        System.out.println("Invalid choice. Please select a valid option.");
-                        break;
                     case 9:
                         System.out.println("Enter date");
                         String date = sc.nextLine();
                         System.out.println(manager.Daily_Statistics_ofBooksBought(date));
+
+                        default:
+                        System.out.println("Invalid choice. Please select a valid option.");
+                        break;
+
                 }
             }
         }
