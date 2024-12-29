@@ -364,7 +364,7 @@ public class Manager extends Librarian implements Serializable {
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"))) {
 
-            int incomes = 0;
+            double incomes = 0.0;
             String line;
 
 
@@ -393,18 +393,20 @@ public class Manager extends Librarian implements Serializable {
             // Handle the case where the file is not found (empty file)
             return 0;
         }
+
+
     }
 
-    public String monthly_incomes(String startdate, String enddate) throws IOException,
+    public double monthly_incomes(String start_date, String end_date) throws IOException,
             ParseException, DateNotValidException, BillNotFoundException {
 
-        isValid(startdate);
-        isValid(enddate);
+        isValid(start_date);
+        isValid(end_date);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        Date start = dateFormat.parse(startdate);
-        Date end = dateFormat.parse(enddate);
+        Date start = dateFormat.parse(start_date);
+        Date end = dateFormat.parse(end_date);
 
 
         if (start.compareTo(end) > 0) {
@@ -417,7 +419,7 @@ public class Manager extends Librarian implements Serializable {
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"))) {
 
-            double incomes = 0;
+            double incomes = 0.0;
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {
@@ -443,11 +445,11 @@ public class Manager extends Librarian implements Serializable {
 
 
 
-            return String.valueOf(incomes);
+            return incomes;
 
         } catch (FileNotFoundException e) {
             // Handle the case where the file is not found (empty file)
-            return "0";
+            return 0.0;
         }
 
     }
