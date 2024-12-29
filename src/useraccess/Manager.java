@@ -221,7 +221,7 @@ public class Manager extends Librarian implements Serializable {
                 return "No books are sold till now";
             }
 
-            result.setLength(result.length() -1);
+            result.setLength(result.length() - 1);
             return result.toString();
         }
     }
@@ -292,7 +292,7 @@ public class Manager extends Librarian implements Serializable {
 
         super.Read_books();
 
-        ArrayList<Book> booksbought = new ArrayList<>();
+        ArrayList<Book> books_bought = new ArrayList<>();
 
         int number_of_books = 0;
 
@@ -302,7 +302,7 @@ public class Manager extends Librarian implements Serializable {
             Date date = dateFormat.parse(book.getPurchased_date());
 
             if (date.compareTo(Startdate) >= 0 && date.compareTo(Enddate) <= 0) {
-                booksbought.add(book);
+                books_bought.add(book);
                 number_of_books++;
             }
         }
@@ -312,11 +312,11 @@ public class Manager extends Librarian implements Serializable {
             throw new BookNotFoundException("No books were bought from" + " " + startDate + " " + "to" + " " + endDate);
         }
 
-        return booksbought;
+        return books_bought;
 
     }
 
-    public String incomesWithoutfilters() throws IOException,
+    public String incomes_Without_filters() throws IOException,
             BillNotFoundException {
 
         readFile();
