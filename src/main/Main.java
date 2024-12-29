@@ -31,6 +31,7 @@ public class Main {
                 System.out.println("6. View monthly statistics of books sold");
                 System.out.println("7. View daily statistics of books sold");
                 System.out.println("8. View monthly statistics of books bought");
+                System.out.println("9: View daily statistics of books bought");
                 System.out.println("Enter your choice:");
 
                 if (!sc.hasNextInt()) { // Validate input type
@@ -155,6 +156,10 @@ public class Main {
                         default:
                         System.out.println("Invalid choice. Please select a valid option.");
                         break;
+                    case 9:
+                        System.out.println("Enter date");
+                        String date = sc.nextLine();
+                        System.out.println(manager.Daily_Statistics_ofBooksBought(date));
                 }
             }
         }
