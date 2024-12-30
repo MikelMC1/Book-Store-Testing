@@ -32,7 +32,7 @@ public class MonthlyIncomesTesting {
 
         double expected_income = 300.0;
 
-        assertEquals(expected_income, manager.monthly_incomes(start_date,
+        assertEquals(expected_income, manager.certain_period_incomes(start_date,
                 end_date),0.1);
     }
 
@@ -45,7 +45,7 @@ public class MonthlyIncomesTesting {
 
         double expected_income = 90.0;
 
-        assertEquals(expected_income, manager.monthly_incomes(start_date,
+        assertEquals(expected_income, manager.certain_period_incomes(start_date,
                 end_date),0.1);
     }
 
@@ -58,7 +58,7 @@ public class MonthlyIncomesTesting {
 
         double expected_income = 0.0;
 
-        assertEquals(expected_income, manager.monthly_incomes(start_date,
+        assertEquals(expected_income, manager.certain_period_incomes(start_date,
                 end_date),0.1);
     }
 
@@ -69,7 +69,7 @@ public class MonthlyIncomesTesting {
         String end_date = "2/03/2024";
 
         DateNotValidException exception = assertThrows(DateNotValidException.class,
-                () -> manager.monthly_incomes(start_date,end_date));
+                () -> manager.certain_period_incomes(start_date,end_date));
         assertEquals("Starting date can not be after end date",
                 exception.getMessage());
     }
@@ -83,7 +83,7 @@ public class MonthlyIncomesTesting {
 
         double expected_income = 90.0; // 60.0 + 30.0 for this date
 
-        assertEquals(expected_income, manager.monthly_incomes(start_date,
+        assertEquals(expected_income, manager.certain_period_incomes(start_date,
                 end_date), 0.1);
     }
     @Test
@@ -91,7 +91,7 @@ public class MonthlyIncomesTesting {
         String start_date = "1/03-2024";
         String end_date = "2/03/2024";
         DateNotValidException exception = assertThrows(DateNotValidException.class,
-                () -> manager.monthly_incomes(start_date,end_date));
+                () -> manager.certain_period_incomes(start_date,end_date));
         assertEquals("Invalid date format. " +
                 "The format required for the date to be entered is"
                 + " " + "dd/MM/yyyy", exception.getMessage());
@@ -109,7 +109,7 @@ public class MonthlyIncomesTesting {
         String end_date = "14/03/2024";
 
         BillNotFoundException exception = assertThrows(BillNotFoundException.class,
-                () -> manager.monthly_incomes(start_date,end_date));
+                () -> manager.certain_period_incomes(start_date,end_date));
         assertEquals("No books have been sold till now",
                 exception.getMessage());
 

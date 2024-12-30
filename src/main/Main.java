@@ -32,6 +32,7 @@ public class Main {
                 System.out.println("7. View daily statistics of books sold");
                 System.out.println("8. View monthly statistics of books bought");
                 System.out.println("9: View daily statistics of books bought");
+                System.out.println("10: View total books sold");
                 System.out.println("Enter your choice:");
 
                 if (!sc.hasNextInt()) { // Validate input type
@@ -124,7 +125,8 @@ public class Main {
                         String startDate = sc.nextLine();
                         System.out.println("Enter end date (dd/MM/yyyy):");
                         String endDate = sc.nextLine();
-                        System.out.println("Monthly incomes: " + manager.monthlyincomes(startDate, endDate));
+                        System.out.println("Monthly incomes: " +
+                                manager.certain_period_incomes(startDate, endDate));
                         break;
 
                     case 5:
@@ -158,6 +160,15 @@ public class Main {
                         String date = sc.nextLine();
                         System.out.println(manager.Daily_Statistics_ofBooksBought(date));
 
+                    case 10:
+                        System.out.println("Enter ISBN");
+                        String isbn = sc.nextLine();
+                        System.out.println("Enter start date");
+                        String start_date = sc.nextLine();
+                        System.out.println("Enter end date");
+                        String end_date = sc.nextLine();
+                        System.out.println(manager.total_of_BooksSold(isbn,
+                                start_date,end_date));
                         default:
                         System.out.println("Invalid choice. Please select a valid option.");
                         break;

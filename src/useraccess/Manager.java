@@ -397,7 +397,7 @@ public class Manager extends Librarian implements Serializable {
 
     }
 
-    public double monthly_incomes(String start_date, String end_date) throws IOException,
+    public double certain_period_incomes(String start_date, String end_date) throws IOException,
             ParseException, DateNotValidException, BillNotFoundException {
 
         isValid(start_date);
@@ -551,65 +551,12 @@ public class Manager extends Librarian implements Serializable {
 
     }
 
-    public double totalIncomesAdmin(String start_date, String end_date) throws IOException, BookNotFoundException, DateNotValidException, ParseException, BillNotFoundException {
 
-        isValid(start_date);
-        isValid(end_date);
+    public double profit(String start_date, String end_date) throws
+            DateNotValidException, ParseException, IOException,
+            ClassNotFoundException, BillNotFoundException {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        Date start = dateFormat.parse(start_date);
-        Date end = dateFormat.parse(end_date);
-
-        if (start.compareTo(end) > 0) {
-            throw new DateNotValidException("Starting date can not be after end date");
-        }
-
-
-        readFile();
-
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"));
-        
-
-        String line;
-        int numberofbooks = 0;
-        double totalincomes = 0;
-
-
-        while ((line = bufferedReader.readLine()) != null) {
-
-            String[] parts = line.split(",");
-
-
-            if (parts.length == 6) {
-
-                Date date = dateFormat.parse(parts[1]);
-
-                if (date.compareTo(start) >= 0 && date.compareTo(end) <= 0) {
-
-                    numberofbooks++;
-                    totalincomes += Double.parseDouble(parts[5]);
-
-                }
-            }
-        }
-
-        if (numberofbooks == 0) {
-            throw new BookNotFoundException("No books are sold from" + " " + 
-                    start_date + " " + "to" + " " + end_date);
-        }
-
-        return totalincomes;
-
-    }
-
-
-
-    public double profit(String start_date, String end_date) throws DateNotValidException, BookNotFoundException, ParseException, IOException, ClassNotFoundException, BillNotFoundException {
-
-
-        return totalIncomesAdmin(start_date,end_date) - getTotalCostAdmin(start_date,end_date);
-
+        return certain_period_incomes(start_date,end_date) - getTotalCostAdmin(start_date,end_date);
 
     }
 
