@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MonthlyBooksBoughtTesting {
+public class    MonthlyBooksBoughtTesting {
 
     private Manager manager;
 
@@ -33,7 +33,7 @@ public class MonthlyBooksBoughtTesting {
         String expected = """
                 [ISBN=111aaa author=Albert Kamy title=I huaji
                 book_category=Roman purchased_date=23/02/2024
-                purchased_price=10.0 stock=16]""";
+                purchased_price=10,0 stock=16]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -52,7 +52,7 @@ public class MonthlyBooksBoughtTesting {
         String expected = """
                 [ISBN=9001101 author=Leon Tolstoi title=Ana Karenina
                 book_category=Roman purchased_date=13/03/2024
-                purchased_price=13.0 stock=35]""";
+                purchased_price=13,0 stock=35]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -61,19 +61,19 @@ public class MonthlyBooksBoughtTesting {
     @Test
     public void test_with_equal_dates_within_bounds3() throws DateNotValidException,
             IOException, ParseException, BookNotFoundException, ClassNotFoundException {
-        String start_date = "3/03/2024";
-        String end_date = "3/03/2024"; // in between value where books
+        String start_date = "03/03/2024";
+        String end_date = "03/03/2024"; // in between value where books
         // are bought
 
         ArrayList<Book> actual_value = this.manager.
                 Monthly_Statistics_of_BooksBought(start_date,end_date);
         String expected = """
-                [ISBN=144ty58 author=Fjodor Dostojevksi title=Krim dhe ndeshkim
-                book_category=Roman purchased_date=3/03/2024
-                purchased_price=10.0 stock=34, ISBN=70000000
-                author=Miguel De Servantes title=Don Kishoti
-                book_category=Roman purchased_date=3/03/2024
-                purchased_price=20.0 stock=23]""";
+                [ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim
+                book_category=Roman purchased_date=03/03/2024
+                purchased_price=10,0 stock=34, ISBN=70000000
+                author=Miguel de Servantes title=Don Kishoti
+                book_category=Roman purchased_date=03/03/2024
+                purchased_price=20,0 stock=23]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -126,16 +126,16 @@ public class MonthlyBooksBoughtTesting {
         String expected = """
                 [ISBN=111aaa author=Albert Kamy title=I huaji
                 book_category=Roman purchased_date=23/02/2024
-                purchased_price=10.0 stock=16, ISBN=144ty58
-                author=Fjodor Dostojevksi title=Krim dhe ndeshkim
-                book_category=Roman purchased_date=3/03/2024
-                purchased_price=10.0 stock=34, ISBN=70000000
-                author=Miguel De Servantes title=Don Kishoti
-                book_category=Roman purchased_date=3/03/2024
-                purchased_price=20.0 stock=23, ISBN=9001101
+                purchased_price=10,0 stock=16, ISBN=144ty58
+                author=Fjodor Dostojevski title=Krim dhe ndeshkim
+                book_category=Roman purchased_date=03/03/2024
+                purchased_price=10,0 stock=34, ISBN=70000000
+                author=Miguel de Servantes title=Don Kishoti
+                book_category=Roman purchased_date=03/03/2024
+                purchased_price=20,0 stock=23, ISBN=9001101
                 author=Leon Tolstoi title=Ana Karenina
                 book_category=Roman purchased_date=13/03/2024
-                purchased_price=13.0 stock=35]""";
+                purchased_price=13,0 stock=35]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -146,7 +146,7 @@ public class MonthlyBooksBoughtTesting {
     public void test_with_dates_within_bounds2() throws DateNotValidException,
             IOException, ParseException, BookNotFoundException, ClassNotFoundException {
         String start_date = "23/02/2024";
-        String end_date = "3/03/2024";
+        String end_date = "03/03/2024";
         // different dates where books are bought
         // values between (lower bound included for start date
         // same thing if upper bound was included, for simplicity
@@ -157,13 +157,13 @@ public class MonthlyBooksBoughtTesting {
         String expected = """
                 [ISBN=111aaa author=Albert Kamy title=I huaji
                 book_category=Roman purchased_date=23/02/2024
-                purchased_price=10.0 stock=16,
-                ISBN=144ty58 author=Fjodor Dostojevksi
+                purchased_price=10,0 stock=16,
+                ISBN=144ty58 author=Fjodor Dostojevski
                 title=Krim dhe ndeshkim book_category=Roman
-                purchased_date=3/03/2024  purchased_price=10.0 stock=34,
-                ISBN=70000000  author=Miguel De Servantes title=Don Kishoti
-                book_category=Roman purchased_date=3/03/2024
-                purchased_price=20.0 stock=23]""";
+                purchased_date=03/03/2024  purchased_price=10,0 stock=34,
+                ISBN=70000000  author=Miguel de Servantes title=Don Kishoti
+                book_category=Roman purchased_date=03/03/2024
+                purchased_price=20,0 stock=23]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -180,11 +180,11 @@ public class MonthlyBooksBoughtTesting {
         ArrayList<Book> actual_value = this.manager.
                 Monthly_Statistics_of_BooksBought(start_date,end_date);
         String expected = """
-                [ISBN=144ty58 author=Fjodor Dostojevksi title=Krim dhe ndeshkim
-                book_category=Roman purchased_date=3/03/2024
-                purchased_price=10.0 stock=34, ISBN=70000000
-                author=Miguel De Servantes title=Don Kishoti book_category=Roman
-                 purchased_date=3/03/2024  purchased_price=20.0 stock=23]""";
+                [ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim
+                book_category=Roman purchased_date=03/03/2024
+                purchased_price=10,0 stock=34, ISBN=70000000
+                author=Miguel de Servantes title=Don Kishoti book_category=Roman
+                 purchased_date=03/03/2024  purchased_price=20,0 stock=23]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -203,16 +203,16 @@ public class MonthlyBooksBoughtTesting {
         String expected = """
                 [ISBN=111aaa author=Albert Kamy title=I huaji
                 book_category=Roman purchased_date=23/02/2024
-                purchased_price=10.0 stock=16, ISBN=144ty58
-                author=Fjodor Dostojevksi title=Krim dhe ndeshkim
-                book_category=Roman purchased_date=3/03/2024
-                purchased_price=10.0 stock=34, ISBN=70000000
-                author=Miguel De Servantes title=Don Kishoti
-                book_category=Roman purchased_date=3/03/2024
-                purchased_price=20.0 stock=23, ISBN=9001101
+                purchased_price=10,0 stock=16, ISBN=144ty58
+                author=Fjodor Dostojevski title=Krim dhe ndeshkim
+                book_category=Roman purchased_date=03/03/2024
+                purchased_price=10,0 stock=34, ISBN=70000000
+                author=Miguel de Servantes title=Don Kishoti
+                book_category=Roman purchased_date=03/03/2024
+                purchased_price=20,0 stock=23, ISBN=9001101
                 author=Leon Tolstoi title=Ana Karenina
                 book_category=Roman purchased_date=13/03/2024
-                purchased_price=13.0 stock=35]""";
+                purchased_price=13,0 stock=35]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
