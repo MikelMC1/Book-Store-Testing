@@ -118,14 +118,15 @@ public class Manager extends Librarian implements Serializable {
 
                 if (date2.compareTo(start) >= 0 && date2.compareTo(end) <= 0) {
 
-                    result.append(parts[0])
-                            .append(",")
-                            .append(parts[2])
-                            .append(",")
-                            .append(parts[3])
+                    result.append(parts[0].trim())  // Ensure no leading or trailing spaces in the date
+                            .append(", ")
+                            .append(parts[2].trim())  // Ensure no leading or trailing spaces in the book title
+                            .append(", ")
+                            .append(parts[3].trim())  // Ensure no leading or trailing spaces in the quantity
                             .append(" ")
                             .append("book/s")
                             .append("\n");
+
                 }
 
             }
@@ -168,14 +169,15 @@ public class Manager extends Librarian implements Serializable {
 
                 if (date2.compareTo(date1) == 0) {
 
-                    result.append(parts[0])
+                    result.append(parts[0].trim())  // Ensure no leading or trailing spaces in the date
                             .append(",")
-                            .append(parts[2])
+                            .append(parts[2].trim())  // Ensure no leading or trailing spaces in the book title
                             .append(",")
-                            .append(parts[3])
+                            .append(parts[3].trim())  // Ensure no leading or trailing spaces in the quantity
                             .append(" ")
                             .append("book/s")
                             .append("\n");
+
                 }
             }
         }
@@ -307,7 +309,8 @@ public class Manager extends Librarian implements Serializable {
 
 
         if (number_of_books == 0) {
-            throw new BookNotFoundException("No books were bought from" + " " + startDate + " " + "to" + " " + endDate);
+            throw new BookNotFoundException("No books were bought from" + " " +
+                    startDate + " " + "to" + " " + endDate);
         }
 
         return books_bought;

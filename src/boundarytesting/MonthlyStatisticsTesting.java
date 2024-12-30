@@ -45,7 +45,8 @@ public class MonthlyStatisticsTesting {
     @Test
     public void test_with_equal_dates_within_bounds2() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
         String start_date = "14/03/2024";
-        String end_date = "14/03/2024"; // last date a book is sold, upper bound
+        String end_date = "14/03/2024"; // last date a book is sold,
+        // upper bound
 
         String actual_value = this.manager.getMonthly_Statistics_of_BooksSold(start_date,
                 end_date);
@@ -55,7 +56,8 @@ public class MonthlyStatisticsTesting {
     @Test
     public void test_with_equal_dates_within_bounds3() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
         String start_date = "8/03/2024";
-        String end_date = "8/03/2024"; // in between value where books are sold
+        String end_date = "8/03/2024"; // in between value where books are
+        // sold
 
         String actual_value = this.manager.getMonthly_Statistics_of_BooksSold(start_date,
                 end_date);
@@ -67,6 +69,18 @@ public class MonthlyStatisticsTesting {
     public void test_with_equal_dates_outside_bounds() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
         String start_date = "1/03/2024";
         String end_date = "1/03/2024"; // outside bounds where no book is sold
+
+        String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
+                end_date);
+        assertEquals("No books are sold from" + " " + start_date + " " +
+                "to" +
+                " " + end_date,actual_value);
+    }
+
+    @Test
+    public void test_with_equal_dates_inside_bounds() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
+        String start_date = "7/03/2024";
+        String end_date = "7/03/2024"; // inside bounds where no book is sold
 
         String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
                 end_date);

@@ -68,7 +68,8 @@ public class DailyBooksBoughtTesting {
             [ISBN=144ty58   author=Fjodor Dostojevksi
             title=Krim dhe ndeshkim   book_category=Roman
             purchased_date=3/03/2024   purchased_price=10.0   stock=34,
-            ISBN=70000000   author=Miguel De Servantes   title=Don Kishoti   book_category=Roman  \s
+            ISBN=70000000   author=Miguel De Servantes   title=Don Kishoti 
+              book_category=Roman  \s
             purchased_date=3/03/2024   purchased_price=20.0   stock=23]""";
 
         expected = expected.trim().replaceAll("\\s+", " ");

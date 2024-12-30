@@ -23,154 +23,224 @@ public class MonthlyBooksBoughtTesting {
     }
 
     @Test
-    public void test_with_equal_dates_within_bounds() throws DateNotValidException, IOException, ParseException, BillNotFoundException, BookNotFoundException, ClassNotFoundException {
+    public void test_with_equal_dates_within_bounds() throws DateNotValidException, IOException,
+            ParseException, BookNotFoundException, ClassNotFoundException
+    {
         String start_date = "23/02/2024";
         String end_date = "23/02/2024"; // first date in file
 
-      ArrayList<Book> actual_value = this.manager.
-                Monthly_Statistics_of_BooksBought(start_date,
-                end_date);
-        assertEquals("""
-                2/03/2024, Krim dhe ndeshkim, 2 book/s
-                2/03/2024, Krim dhe ndeshkim, 3 book/s
-                2/03/2024, I huaji, 1 book/s""",actual_value);
+        ArrayList<Book> actual_value = this.manager.
+                Monthly_Statistics_of_BooksBought(start_date,end_date);
+        String expected = """
+                [ISBN=111aaa author=Albert Kamy title=I huaji  
+                book_category=Roman purchased_date=23/02/2024  
+                purchased_price=10.0 stock=16]""";
+        expected = expected.trim().replaceAll("\\s+", " ");
+        String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
+        assertEquals(expected,actual);
     }
 
     @Test
-    public void test_with_equal_dates_within_bounds2() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
-        String start_date = "14/03/2024";
-        String end_date = "14/03/2024"; // last date a book is sold, upper bound
+    public void test_with_equal_dates_within_bounds2() throws
+            DateNotValidException, IOException,
+            ParseException,BookNotFoundException, ClassNotFoundException {
 
-        String actual_value = this.manager.getMonthly_Statistics_of_BooksSold(start_date,
-                end_date);
-        assertEquals("14/03/2024, I huaji, 3 book/s",actual_value);
+        String start_date = "13/03/2024";
+        String end_date = "13/03/2024"; // last date a book is bought,
+        // upper bound
+        ArrayList<Book> actual_value = this.manager.
+                Monthly_Statistics_of_BooksBought(start_date,end_date);
+        String expected = """
+                [ISBN=9001101 author=Leon Tolstoi title=Ana Karenina 
+                book_category=Roman purchased_date=13/03/2024 
+                purchased_price=13.0 stock=35]""";
+        expected = expected.trim().replaceAll("\\s+", " ");
+        String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
+        assertEquals(expected,actual);
     }
 
     @Test
-    public void test_with_equal_dates_within_bounds3() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
-        String start_date = "8/03/2024";
-        String end_date = "8/03/2024"; // in between value where books are sold
+    public void test_with_equal_dates_within_bounds3() throws DateNotValidException,
+            IOException, ParseException, BookNotFoundException, ClassNotFoundException {
+        String start_date = "3/03/2024";
+        String end_date = "3/03/2024"; // in between value where books
+        // are bought
 
-        String actual_value = this.manager.getMonthly_Statistics_of_BooksSold(start_date,
-                end_date);
-        assertEquals("8/03/2024, Don Kishoti, 2 book/s\n" +
-                "8/03/2024, Krim dhe ndeshkim, 1 book/s",actual_value);
+        ArrayList<Book> actual_value = this.manager.
+                Monthly_Statistics_of_BooksBought(start_date,end_date);
+        String expected = """
+                [ISBN=144ty58 author=Fjodor Dostojevksi title=Krim dhe ndeshkim 
+                book_category=Roman purchased_date=3/03/2024  
+                purchased_price=10.0 stock=34, ISBN=70000000  
+                author=Miguel De Servantes title=Don Kishoti 
+                book_category=Roman purchased_date=3/03/2024  
+                purchased_price=20.0 stock=23]""";
+        expected = expected.trim().replaceAll("\\s+", " ");
+        String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
+        assertEquals(expected,actual);
     }
 
     @Test
-    public void test_with_equal_dates_outside_bounds() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
-        String start_date = "1/03/2024";
-        String end_date = "1/03/2024"; // outside bounds where no book is sold
+    public void test_with_equal_dates_outside_bounds() {
 
-        String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
-                end_date);
-        assertEquals("No books are sold from" + " " + start_date + " " +
-                "to" +
-                " " + end_date,actual_value);
+        String start_date = "22/02/2024";
+        String end_date = "22/02/2024"; // outside bounds where no book is
+        // bought
+
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class,
+                () -> manager.Monthly_Statistics_of_BooksBought(start_date,end_date));
+        assertEquals("No books were bought from" + " " + start_date + " " +
+                        "to" + " " + end_date,
+               exception.getMessage() );
+    }
+
+    @Test
+    public void test_with_equal_dates_within_bounds4() {
+
+        String start_date = "24/02/2024";
+        String end_date = "24/02/2024"; // inside bounds where no book is
+        // bought
+
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class,
+                () -> manager.Monthly_Statistics_of_BooksBought(start_date,end_date));
+        assertEquals("No books were bought from" + " " + start_date + " " +
+                        "to" + " " + end_date,
+                exception.getMessage() );
     }
 
     // we can pick two different dates even if they are outside bounds(one or both),
-    // it may happen that in one day between them books are sold or it
-    // may happen that they are not sold this is relative we for sure know
+    // it may happen that in one day between them books are bought or it
+    // may happen that they are not bought this is relative we for sure know
     // that in case start date is bigger than the max date saved in file or
-    // end date is smaller than the min date stored in file no book is sold
+    // end date is smaller than the min date stored in file no book is bought
     // during that period
 
     @Test
-    public void test_with_dates_within_bounds() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
-        String start_date = "2/03/2024";
-        String end_date = "14/03/2024"; // different dates where books are sold
-        // lower and upper bound included
+    public void test_with_dates_within_bounds() throws DateNotValidException,
+            IOException, ParseException,BookNotFoundException, ClassNotFoundException {
+        String start_date = "23/02/2024";
+        String end_date = "13/03/2024"; // different dates where books are
+        // bought lower and upper bound included
 
-        String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
-                end_date);
-        assertEquals("""
-             2/03/2024, Krim dhe ndeshkim, 2 book/s
-             2/03/2024, Krim dhe ndeshkim, 3 book/s
-             2/03/2024, I huaji, 1 book/s
-             8/03/2024, Don Kishoti, 2 book/s
-             8/03/2024, Krim dhe ndeshkim, 1 book/s
-             14/03/2024, I huaji, 3 book/s""", actual_value);
+        ArrayList<Book> actual_value = this.manager.
+                Monthly_Statistics_of_BooksBought(start_date,end_date);
+        String expected = """
+                [ISBN=111aaa author=Albert Kamy title=I huaji  
+                book_category=Roman purchased_date=23/02/2024  
+                purchased_price=10.0 stock=16, ISBN=144ty58 
+                author=Fjodor Dostojevksi title=Krim dhe ndeshkim 
+                book_category=Roman purchased_date=3/03/2024  
+                purchased_price=10.0 stock=34, ISBN=70000000  
+                author=Miguel De Servantes title=Don Kishoti 
+                book_category=Roman purchased_date=3/03/2024  
+                purchased_price=20.0 stock=23, ISBN=9001101 
+                author=Leon Tolstoi title=Ana Karenina 
+                book_category=Roman purchased_date=13/03/2024 
+                purchased_price=13.0 stock=35]""";
+        expected = expected.trim().replaceAll("\\s+", " ");
+        String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
+        assertEquals(expected,actual);
 
     }
 
     @Test
-    public void test_with_dates_within_bounds2() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
-        String start_date = "2/03/2024";
-        String end_date = "9/03/2024";
-        // different dates where books are sold
+    public void test_with_dates_within_bounds2() throws DateNotValidException,
+            IOException, ParseException, BookNotFoundException, ClassNotFoundException {
+        String start_date = "23/02/2024";
+        String end_date = "3/03/2024";
+        // different dates where books are bought
         // values between (lower bound included for start date
         // same thing if upper bound was included, for simplicity
         // I am taking only this case
 
-        String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
-                end_date);
-        assertEquals("""
-             2/03/2024, Krim dhe ndeshkim, 2 book/s
-             2/03/2024, Krim dhe ndeshkim, 3 book/s
-             2/03/2024, I huaji, 1 book/s
-             8/03/2024, Don Kishoti, 2 book/s
-             8/03/2024, Krim dhe ndeshkim, 1 book/s""", actual_value);
+        ArrayList<Book> actual_value = this.manager.
+                Monthly_Statistics_of_BooksBought(start_date,end_date);
+        String expected = """
+                [ISBN=111aaa author=Albert Kamy title=I huaji  
+                book_category=Roman purchased_date=23/02/2024  
+                purchased_price=10.0 stock=16, 
+                ISBN=144ty58 author=Fjodor Dostojevksi 
+                title=Krim dhe ndeshkim book_category=Roman 
+                purchased_date=3/03/2024  purchased_price=10.0 stock=34, 
+                ISBN=70000000  author=Miguel De Servantes title=Don Kishoti 
+                book_category=Roman purchased_date=3/03/2024  
+                purchased_price=20.0 stock=23]""";
+        expected = expected.trim().replaceAll("\\s+", " ");
+        String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
+        assertEquals(expected,actual);
     }
 
     @Test
     public void test_with_dates_within_bounds3() throws DateNotValidException,
-            IOException, ParseException, BillNotFoundException {
-        String start_date = "3/03/2024";
-        String end_date = "13/03/2024";
-        // date in between where books are sold but no lower bound or upper
+            IOException, ParseException, BookNotFoundException, ClassNotFoundException {
+        String start_date = "25/02/2024";
+        String end_date = "10/03/2024";
+        // date in between where books are bought but no lower bound or upper
         // bound included
 
-        String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
-                end_date);
-        assertEquals("""
-                8/03/2024, Don Kishoti, 2 book/s
-                8/03/2024, Krim dhe ndeshkim, 1 book/s""", actual_value);
+        ArrayList<Book> actual_value = this.manager.
+                Monthly_Statistics_of_BooksBought(start_date,end_date);
+        String expected = """
+                [ISBN=144ty58 author=Fjodor Dostojevksi title=Krim dhe ndeshkim 
+                book_category=Roman purchased_date=3/03/2024  
+                purchased_price=10.0 stock=34, ISBN=70000000  
+                author=Miguel De Servantes title=Don Kishoti book_category=Roman
+                 purchased_date=3/03/2024  purchased_price=20.0 stock=23]""";
+        expected = expected.trim().replaceAll("\\s+", " ");
+        String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
+        assertEquals(expected,actual);
     }
 
     @Test
     public void test_with_dates_outside_bounds() throws DateNotValidException,
-            IOException, ParseException, BillNotFoundException {
-        String start_date = "1/03/2024";
-        String end_date = "15/03/2024";
-        // date outside bounds where books are sold but no lower bound
+            IOException, ParseException,BookNotFoundException, ClassNotFoundException {
+        String start_date = "22/02/2024";
+        String end_date = "14/03/2024";
+        // dates outside bounds where books are bought but no lower bound
         // or upper bound included
 
-        String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
-                end_date);
-        assertEquals("""
-             2/03/2024, Krim dhe ndeshkim, 2 book/s
-             2/03/2024, Krim dhe ndeshkim, 3 book/s
-             2/03/2024, I huaji, 1 book/s
-             8/03/2024, Don Kishoti, 2 book/s
-             8/03/2024, Krim dhe ndeshkim, 1 book/s
-             14/03/2024, I huaji, 3 book/s""", actual_value);
+        ArrayList<Book> actual_value = this.manager.
+                Monthly_Statistics_of_BooksBought(start_date,end_date);
+        String expected = """
+                [ISBN=111aaa author=Albert Kamy title=I huaji  
+                book_category=Roman purchased_date=23/02/2024  
+                purchased_price=10.0 stock=16, ISBN=144ty58 
+                author=Fjodor Dostojevksi title=Krim dhe ndeshkim 
+                book_category=Roman purchased_date=3/03/2024  
+                purchased_price=10.0 stock=34, ISBN=70000000  
+                author=Miguel De Servantes title=Don Kishoti 
+                book_category=Roman purchased_date=3/03/2024  
+                purchased_price=20.0 stock=23, ISBN=9001101 
+                author=Leon Tolstoi title=Ana Karenina 
+                book_category=Roman purchased_date=13/03/2024 
+                purchased_price=13.0 stock=35]""";
+        expected = expected.trim().replaceAll("\\s+", " ");
+        String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
+        assertEquals(expected,actual);
     }
 
     @Test
     public void test_with_dates_outside_bounds2() throws DateNotValidException,
-            IOException, ParseException, BillNotFoundException {
-        String start_date = "15/03/2024";
+            IOException, ParseException,BookNotFoundException, ClassNotFoundException {
+        String start_date = "14/03/2024";
         String end_date = "17/03/2024";
         // start date larger than max date stored currently in file
-        String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
-                end_date);
-        assertEquals("No books are sold from" + " " + start_date + " " +
-                "to" +
-                " " + end_date,actual_value);
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class,
+                () -> manager.Monthly_Statistics_of_BooksBought(start_date,end_date));
+        assertEquals("No books were bought from" + " " +
+                start_date + " " + "to" + " " + end_date,exception.getMessage());
     }
 
     @Test
     public void test_with_dates_outside_bounds3() throws DateNotValidException,
-            IOException, ParseException, BillNotFoundException {
-        String start_date = "23/02/2024";
-        String end_date = "1/03/2024";
+            IOException, ParseException, BookNotFoundException, ClassNotFoundException {
+        String start_date = "20/02/2024";
+        String end_date = "22/02/2024";
         // end date smaller than min date stored in file
-        String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
-                end_date);
-        assertEquals("No books are sold from" + " " + start_date + " " +
-                "to" +
-                " " + end_date,actual_value);
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class,
+                () -> manager.Monthly_Statistics_of_BooksBought(start_date,end_date));
+        assertEquals("No books were bought from" + " " +
+                start_date + " " + "to" + " " + end_date,exception.getMessage());
     }
 
 

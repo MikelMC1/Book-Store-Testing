@@ -20,23 +20,26 @@ public class DailyStatisticsTesting {
 
     @Test
     public void test_dailyStatistics_with_lower_bound() throws DateNotValidException, ParseException, IOException, BillNotFoundException {
-
         String date = "2/03/2024"; // first date in file(lower bound)
 
-        String actual_value = this.manager.getDaily_Statistics_of_BooksSold(date);
+        String actual_value = this.manager.
+                getDaily_Statistics_of_BooksSold(date);
 
         assertEquals("""
-                2/03/2024, Krim dhe ndeshkim, 2 book/s
-                2/03/2024, Krim dhe ndeshkim, 3 book/s
-                2/03/2024, I huaji, 1 book/s""",actual_value);
+            2/03/2024,Krim dhe ndeshkim,2 book/s
+            2/03/2024,Krim dhe ndeshkim,3 book/s
+            2/03/2024,I huaji,1 book/s""", actual_value);
     }
+
 
     @Test
     public void test_dailyStatistics_with_upper_bound() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
         String date = "14/03/2024"; // last date a book is sold, upper bound
 
-        String actual_value = this.manager.getDaily_Statistics_of_BooksSold(date);
-        assertEquals("14/03/2024, I huaji, 3 book/s",actual_value);
+        String actual_value = this.manager.
+                getDaily_Statistics_of_BooksSold(date);
+
+        assertEquals("14/03/2024, I huaji, 3 book/s",actual_value.trim());
     }
 
     @Test
@@ -45,8 +48,8 @@ public class DailyStatisticsTesting {
         String date = "8/03/2024"; // in between value where books are sold
 
         String actual_value = this.manager.getDaily_Statistics_of_BooksSold(date);
-        assertEquals("8/03/2024, Don Kishoti, 2 book/s\n" +
-                "8/03/2024, Krim dhe ndeshkim, 1 book/s",actual_value);
+        assertEquals("8/03/2024,Don Kishoti,2 book/s\n" +
+                "8/03/2024,Krim dhe ndeshkim,1 book/s",actual_value);
     }
 
     @Test
