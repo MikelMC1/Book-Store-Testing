@@ -6,6 +6,9 @@ import exceptions.DateNotValidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import useraccess.Manager;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,6 +45,23 @@ public class DailyIncomesTesting {
     }
 
     @Test
+    public void test_with_empty_file() throws IOException {
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter
+                ("BILL.txt"));
+        writer.write(""); // Write nothing to file to test
+        // for empty file
+
+        String date = "2/03/2024";
+
+        BillNotFoundException exception = assertThrows(BillNotFoundException.class,
+                () -> manager.daily_incomes(date));
+        assertEquals("No books have been sold till now",
+                exception.getMessage());
+
+    }
+
+    @Test
     public void test_for_invalid_date_format() {
         String date = "1/03-2024";
         DateNotValidException exception = assertThrows(DateNotValidException.class,
@@ -50,4 +70,6 @@ public class DailyIncomesTesting {
                 "The format required for the date to be entered is"
                 + " " + "dd/MM/yyyy", exception.getMessage());
     }
+
+
 }

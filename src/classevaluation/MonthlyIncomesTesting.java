@@ -63,7 +63,7 @@ public class MonthlyIncomesTesting {
     }
 
     @Test
-    public void test_for_valid_start_date() {
+    public void test_for_invalid_start_date() {
 
         String start_date = "3/03/2024";
         String end_date = "2/03/2024";
@@ -83,7 +83,18 @@ public class MonthlyIncomesTesting {
 
         double expected_income = 90.0; // 60.0 + 30.0 for this date
 
-        assertEquals(expected_income, manager.monthly_incomes(start_date, end_date), 0.1);
+        assertEquals(expected_income, manager.monthly_incomes(start_date,
+                end_date), 0.1);
+    }
+    @Test
+    public void test_for_invalid_date_format() {
+        String start_date = "1/03-2024";
+        String end_date = "2/03/2024";
+        DateNotValidException exception = assertThrows(DateNotValidException.class,
+                () -> manager.monthly_incomes(start_date,end_date));
+        assertEquals("Invalid date format. " +
+                "The format required for the date to be entered is"
+                + " " + "dd/MM/yyyy", exception.getMessage());
     }
 
     @Test

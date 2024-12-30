@@ -451,33 +451,36 @@ public class Manager extends Librarian implements Serializable {
     }
 
 
-    public String total_of_BooksSold(String ISBN, String startdate, String enddate) throws IOException, DateNotValidException, ParseException, BillNotFoundException, BookNotFoundException {
+    public String total_of_BooksSold(String ISBN, String start_date,
+                                     String end_date) throws IOException,
+            DateNotValidException, ParseException, BillNotFoundException,
+            BookNotFoundException {
 
-        isValid(startdate);
-        isValid(enddate);
+        isValid(start_date);
+        isValid(end_date);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        Date start = dateFormat.parse(startdate);
-        Date end = dateFormat.parse(enddate);
+        Date start = dateFormat.parse(start_date);
+        Date end = dateFormat.parse(end_date);
 
         if (start.compareTo(end) > 0) {
-            throw new DateNotValidException("Starting date can not be after end date");
+            throw new DateNotValidException("Starting date can not be after" +
+                    " end date");
         }
 
         readFile();
 
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader
+                ("BILL.txt"));
         StringBuilder stringBuilder = new StringBuilder();
 
         String line;
         int numberofbooks = 0;
 
-
         while ((line = bufferedReader.readLine()) != null) {
 
             String[] parts = line.split(",");
-
 
             if (parts.length == 5) {
 
@@ -485,9 +488,20 @@ public class Manager extends Librarian implements Serializable {
 
                 if (date.compareTo(start) >= 0 && date.compareTo(end) <= 0) {
 
-                    if (parts[1].equals(ISBN)) {
+                    if (parts[1].trim().equals(ISBN.trim())) {
 
-                        stringBuilder.append(line).append("\n");
+                        stringBuilder.append(parts[0])
+                                .append(",")
+                                .append(parts[1])
+                                .append(",")
+                                .append(parts[2])
+                                .append(",")
+                                .append(parts[3])
+                                .append(" ")
+                                .append("book/s")
+                                .append(",")
+                                .append(parts[4])
+                                .append("\n");
                         numberofbooks++;
 
                     }
@@ -497,7 +511,8 @@ public class Manager extends Librarian implements Serializable {
         }
 
         if (numberofbooks == 0) {
-            throw new BookNotFoundException("No books are sold till now");
+            throw new BookNotFoundException("No books with that ISBN are sold" +
+                    "till now");
         }
 
         return stringBuilder.toString();
