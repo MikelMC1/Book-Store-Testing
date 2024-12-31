@@ -1,4 +1,4 @@
-package boundarytesting;
+package boundarytesting2;
 
 import exceptions.BookNotFoundException;
 import exceptions.DateNotValidException;
@@ -21,9 +21,7 @@ public class SalesTotalTest {
 
     @Test
     public void testEmptySalesFile() {
-        assertThrows(BookNotFoundException.class, () -> {
-            librarian.getDailyTotal_books("01/01/2024");
-        });
+        assertThrows(BookNotFoundException.class, () -> librarian.getDailyTotal_books("01/01/2024"));
     }
 
     @Test
@@ -37,16 +35,12 @@ public class SalesTotalTest {
 
     @Test
     public void testInvalidDateRange() {
-        assertThrows(DateNotValidException.class, () -> {
-            librarian.getMonthlyTotal_books("01/02/2024", "31/01/2024");
-        });
+        assertThrows(DateNotValidException.class, () -> librarian.getMonthlyTotal_books("01/02/2024", "31/01/2024"));
     }
 
     @Test
     public void testNoBooksSoldInDateRange() {
-        assertThrows(BookNotFoundException.class, () -> {
-            librarian.getMonthlyTotal_books("01/01/2023", "01/01/2023");
-        });
+        assertThrows(BookNotFoundException.class, () -> librarian.getMonthlyTotal_books("01/01/2023", "01/01/2023"));
     }
 
     @Test
