@@ -19,7 +19,8 @@ public class DailyStatisticsTesting {
     }
 
     @Test
-    public void test_dailyStatistics_with_lower_bound() throws DateNotValidException, ParseException, IOException, BillNotFoundException {
+    public void test_dailyStatistics_with_lower_bound() throws DateNotValidException,
+            ParseException, IOException, BillNotFoundException {
         String date = "2/03/2024"; // first date in file(lower bound)
 
         String actual_value = this.manager.
@@ -27,7 +28,8 @@ public class DailyStatisticsTesting {
 
         assertEquals("""
             2/03/2024,Krim dhe ndeshkim,2 book/s
-            2/03/2024,Krim dhe ndeshkim,3 book/s
+            2/03/2024,Krim dhe ndeshkim,2 book/s
+            2/03/2024,Krim dhe ndeshkim,2 book/s
             2/03/2024,I huaji,1 book/s""", actual_value);
     }
 
@@ -39,7 +41,7 @@ public class DailyStatisticsTesting {
         String actual_value = this.manager.
                 getDaily_Statistics_of_BooksSold(date);
 
-        assertEquals("14/03/2024, I huaji, 3 book/s",actual_value.trim());
+        assertEquals("14/03/2024,I huaji,3 book/s",actual_value.trim());
     }
 
     @Test

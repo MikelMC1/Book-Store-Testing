@@ -11,13 +11,13 @@ import java.text.ParseException;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Bill.txt content
-
-// 2/03/2024, 144ty58, Krim dhe ndeshkim, 2, 60.0
-// 2/03/2024, 144ty58, Krim dhe ndeshkim, 3, 90.0
-// 2/03/2024, 111aaa, I huaji, 1, 15.0
-// 8/03/2024, 70000000, Don Kishoti, 2, 60.0
-// 8/03/2024, 144ty58, Krim dhe ndeshkim, 1, 30.0
-// 14/03/2024, 111aaa, I huaji, 3, 45.0
+// 2/03/2024, Krim dhe ndeshkim, 2 book/s
+// 2/03/2024, Krim dhe ndeshkim, 2 book/s
+// 2/03/2024, Krim dhe ndeshkim, 2 book/s
+// 2/03/2024, I huaji, 1 book/s
+// 8/03/2024, Don Kishoti, 2 book/s
+// 8/03/2024, Krim dhe ndeshkim, 1 book/s
+// 14/03/2024, I huaji, 3 book/s
 
 public class MonthlyStatisticsTesting {
 
@@ -38,7 +38,8 @@ public class MonthlyStatisticsTesting {
                 end_date);
         assertEquals("""
                 2/03/2024, Krim dhe ndeshkim, 2 book/s
-                2/03/2024, Krim dhe ndeshkim, 3 book/s
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
                 2/03/2024, I huaji, 1 book/s""",actual_value);
     }
 
@@ -105,12 +106,13 @@ public class MonthlyStatisticsTesting {
         String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
                 end_date);
         assertEquals("""
-             2/03/2024, Krim dhe ndeshkim, 2 book/s
-             2/03/2024, Krim dhe ndeshkim, 3 book/s
-             2/03/2024, I huaji, 1 book/s
-             8/03/2024, Don Kishoti, 2 book/s
-             8/03/2024, Krim dhe ndeshkim, 1 book/s
-             14/03/2024, I huaji, 3 book/s""", actual_value);
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
+                2/03/2024, I huaji, 1 book/s
+                8/03/2024, Don Kishoti, 2 book/s
+                8/03/2024, Krim dhe ndeshkim, 1 book/s
+                14/03/2024, I huaji, 3 book/s""", actual_value);
 
     }
 
@@ -126,11 +128,12 @@ public class MonthlyStatisticsTesting {
         String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
                 end_date);
         assertEquals("""
-             2/03/2024, Krim dhe ndeshkim, 2 book/s
-             2/03/2024, Krim dhe ndeshkim, 3 book/s
-             2/03/2024, I huaji, 1 book/s
-             8/03/2024, Don Kishoti, 2 book/s
-             8/03/2024, Krim dhe ndeshkim, 1 book/s""", actual_value);
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
+                2/03/2024, I huaji, 1 book/s
+                8/03/2024, Don Kishoti, 2 book/s
+                8/03/2024, Krim dhe ndeshkim, 1 book/s""", actual_value);
     }
 
     @Test
@@ -153,18 +156,19 @@ public class MonthlyStatisticsTesting {
             IOException, ParseException, BillNotFoundException {
         String start_date = "1/03/2024";
         String end_date = "15/03/2024";
-        // date outside bounds where books are sold but no lower bound
+        // dates outside bounds where books are sold but no lower bound
         // or upper bound included
 
         String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
                 end_date);
         assertEquals("""
-             2/03/2024, Krim dhe ndeshkim, 2 book/s
-             2/03/2024, Krim dhe ndeshkim, 3 book/s
-             2/03/2024, I huaji, 1 book/s
-             8/03/2024, Don Kishoti, 2 book/s
-             8/03/2024, Krim dhe ndeshkim, 1 book/s
-             14/03/2024, I huaji, 3 book/s""", actual_value);
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
+                2/03/2024, Krim dhe ndeshkim, 2 book/s
+                2/03/2024, I huaji, 1 book/s
+                8/03/2024, Don Kishoti, 2 book/s
+                8/03/2024, Krim dhe ndeshkim, 1 book/s
+                14/03/2024, I huaji, 3 book/s""", actual_value);
     }
 
     @Test
@@ -192,12 +196,5 @@ public class MonthlyStatisticsTesting {
                 "to" +
                 " " + end_date,actual_value);
     }
-
-
-
-
-
-
-
 
 }

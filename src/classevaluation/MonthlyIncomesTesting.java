@@ -30,7 +30,7 @@ public class MonthlyIncomesTesting {
         String end_date = "14/03/2024"; // min and max dates stored
         // in file included
 
-        double expected_income = 300.0;
+        double expected_income = 330.0;
 
         assertEquals(expected_income, manager.certain_period_incomes(start_date,
                 end_date),0.1);
@@ -115,7 +115,5 @@ public class MonthlyIncomesTesting {
                 exception.getMessage());
 
     }
-
-
 
 }

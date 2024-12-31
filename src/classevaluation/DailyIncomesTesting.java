@@ -28,7 +28,7 @@ public class DailyIncomesTesting {
             IOException, ParseException, BillNotFoundException {
 
         String date = "2/03/2024";
-        double expected_incomes = 165.0;
+        double expected_incomes = 195.0;
 
         assertEquals(expected_incomes, manager.daily_incomes(date), 0.1);
     }

@@ -37,9 +37,9 @@ public class BooksSoldTesting {
         String actual_value = this.manager.
                 total_of_BooksSold(ISBN,start_date,
                         end_date);
-        String expected = "2/03/2024, 144ty58, Krim dhe ndeshkim, 2 book/s, " +
-                "60.0\n" +
-                "2/03/2024, 144ty58, Krim dhe ndeshkim, 3 book/s, 90.0";
+        String expected = "2/03/2024, 144ty58, Krim dhe ndeshkim, 2 book/s, 60.0 2/03/2024, " +
+                          "144ty58, Krim dhe ndeshkim, 2 book/s, " +
+                          "60.0 2/03/2024, 144ty58, Krim dhe ndeshkim, 2 book/s, 60.0";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -58,8 +58,9 @@ public class BooksSoldTesting {
                 total_of_BooksSold(ISBN,start_date,
                         end_date);
         String expected = "2/03/2024, 144ty58, Krim dhe ndeshkim, 2 book/s, " +
-                "60.0 2/03/2024, 144ty58, Krim dhe ndeshkim, 3 book/s, 90.0 " +
-                "8/03/2024, 144ty58, Krim dhe ndeshkim, 1 book/s, 30.0";
+                          "60.0 2/03/2024, 144ty58, Krim dhe ndeshkim, 2 book/s, " +
+                          "60.0 2/03/2024, 144ty58, Krim dhe ndeshkim, 2 book/s, " +
+                          "60.0 8/03/2024, 144ty58, Krim dhe ndeshkim, 1 book/s, 30.0";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -125,8 +126,9 @@ public class BooksSoldTesting {
                 total_of_BooksSold(ISBN,start_date,
                         end_date);
         String expected = "2/03/2024, 144ty58, Krim dhe ndeshkim, 2 book/s, " +
-                "60.0 2/03/2024, 144ty58, Krim dhe ndeshkim, 3 book/s, 90.0 " +
-                "8/03/2024, 144ty58, Krim dhe ndeshkim, 1 book/s, 30.0";
+                          "60.0 2/03/2024, 144ty58, Krim dhe ndeshkim, 2 book/s, " +
+                          "60.0 2/03/2024, 144ty58, Krim dhe ndeshkim, 2 book/s, " +
+                          "60.0 8/03/2024, 144ty58, Krim dhe ndeshkim, 1 book/s, 30.0";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);

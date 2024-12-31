@@ -14,7 +14,6 @@ public class Book implements Serializable {
     private String author;
     private String title;
     private String book_category;
-    private String supplier;
     private String purchased_date;
     private double purchased_price;
     private double selling_price;
@@ -58,10 +57,6 @@ public class Book implements Serializable {
         return this.book_category;
     }
 
-    public String getSupplier() {
-        return this.supplier;
-    }
-
     public String getPurchased_date() {
         return this.purchased_date;
     }
@@ -92,10 +87,6 @@ public class Book implements Serializable {
 
     public void setBook_category(String book_category) {
         this.book_category = book_category;
-    }
-
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
     }
 
     public void setPurchased_date(String purchased_date) {
