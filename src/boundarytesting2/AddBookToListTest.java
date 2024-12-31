@@ -34,7 +34,7 @@ public class AddBookToListTest {
                 "Test Author",      // Author
                 "Test Book",        // Title
                 "Fiction",          // Book Category
-                "01/01/2024",       // Purchased Date (assumed format dd/MM/yyyy)
+                "1/01/2024",       // Purchased Date (assumed format dd/MM/yyyy)
                 20.0,               // Purchased Price
                 25.0,               // Selling Price
                 10                  // Stock
@@ -52,7 +52,7 @@ public class AddBookToListTest {
                     "Author " + i,           // Author
                     "Book " + i,             // Title
                     "Category",              // Book Category
-                    "01/01/2024",            // Purchased Date
+                    "1/01/2024",            // Purchased Date
                     20.0,                    // Purchased Price
                     30.0,                    // Selling Price
                     10                       // Stock
