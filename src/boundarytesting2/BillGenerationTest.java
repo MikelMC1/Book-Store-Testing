@@ -26,9 +26,7 @@ public class BillGenerationTest {
     public void testOutOfStock() {
         try {
             librarian.addBookstolist(new Book("12345", "Test Author", "Test Book", "Fiction", "01/01/2024", 10.0, 20.0, 0));
-            assertThrows(BookNotFoundException.class, () -> {
-                librarian.Bill("01/01/2024", "Test Book", 1);
-            });
+            assertThrows(BookNotFoundException.class, () -> librarian.Bill("01/01/2024", "Test Book", 1));
         } catch (Exception e) {
             fail("Out of stock should throw BookNotFoundException");
         }
@@ -39,9 +37,7 @@ public class BillGenerationTest {
         try {
             Book book = new Book("12345", "Test Author", "Test Book", "Fiction", "01/01/2024", 10.0, 20.0, 5);
             librarian.addBookstolist(book);
-            assertThrows(BookNotFoundException.class, () -> {
-                librarian.Bill("01/01/2024", "Test Book", 10);
-            });
+            assertThrows(BookNotFoundException.class, () -> librarian.Bill("01/01/2024", "Test Book", 10));
         } catch (Exception e) {
             fail("Not enough stock should throw BookNotFoundException");
         }
@@ -50,9 +46,7 @@ public class BillGenerationTest {
     @Test
     public void testBookNotAvailable() {
         try {
-            assertThrows(BookNotFoundException.class, () -> {
-                librarian.Bill("01/01/2024", "Nonexistent Book", 1);
-            });
+            assertThrows(BookNotFoundException.class, () -> librarian.Bill("01/01/2024", "Nonexistent Book", 1));
         } catch (Exception e) {
             fail("Nonexistent book should throw BookNotFoundException");
         }
