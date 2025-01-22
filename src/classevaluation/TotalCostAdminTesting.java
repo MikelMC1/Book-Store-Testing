@@ -89,7 +89,7 @@ public class TotalCostAdminTesting {
 
     @Test
     public void test_with_empty_books_file() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("BOOKS.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("books.bin"));
         writer.write(""); // Empty file
         writer.close();
 
@@ -98,6 +98,6 @@ public class TotalCostAdminTesting {
 
         IOException exception = assertThrows(IOException.class,
                 () -> manager.getTotalCostAdmin(start_date, end_date));
-        assertEquals("No books found in the database", exception.getMessage());
+        assertEquals("No books found in the file", exception.getMessage());
     }
 }

@@ -30,7 +30,8 @@ public class MonthlyStatisticsTesting {
     }
 
     @Test
-    public void test_with_equal_dates_within_bounds() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
+    public void test_with_equal_dates_within_bounds() throws DateNotValidException,
+            IOException, ParseException, BillNotFoundException {
         String start_date = "2/03/2024";
         String end_date = "2/03/2024"; // first date in file
 
@@ -174,8 +175,8 @@ public class MonthlyStatisticsTesting {
     @Test
     public void test_with_dates_outside_bounds2() throws DateNotValidException,
             IOException, ParseException, BillNotFoundException {
-        String start_date = "15/03/2024";
-        String end_date = "17/03/2024";
+        String start_date = "17/03/2024";
+        String end_date = "18/03/2024";
         // start date larger than max date stored currently in file
         String actual_value = manager.getMonthly_Statistics_of_BooksSold(start_date,
                 end_date);

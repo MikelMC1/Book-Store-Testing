@@ -6,11 +6,10 @@ import exceptions.DateNotValidException;
 import exceptions.ISBNnotValidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import useraccess.Manager;
-
 import java.io.IOException;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -25,184 +24,79 @@ public class Add_Book_Testing {
         manager = new Manager();
     }
 
-    @Test
-    public void test_for_valid_ISBN() throws ISBNnotValidException, IOException {
-        Book book = new Book("1222a3",
-                "Albert Kamy",
-                "The stranger",
-                "Roman",
-                "28/12/2024",
-                20,
-                30,
-                20); //6 characters, lower bound
+    @ParameterizedTest
+    @CsvSource({
+            // 6 characters ISBN(lower bound)
+            "111aaa, Albert Kamy, I huaji, Roman, 23/02/2024, 10, 15, 4",
+            // 10 characters ISBN(in between bounds)
+            "1222a35io7, Fyodor Dostoyevski, Vellezerit Karamazov, Roman, 28/12/2024, 20, 30, 20",
+            // 13 characters ISBN(lower bound)
+            "1222a357u90pf,Shekspiri,Romeo dhe Zhulieta,Drame,28/12/2024,20,30,20"
+    })
+    public void testForValidISBN(String ISBN, String author, String title,
+                                 String genre, String publishDate,
+                                 int purchased_price, int selling_price, int stock)
+            throws ISBNnotValidException, IOException {
+        Book book = new Book(ISBN, author, title, genre, publishDate,purchased_price,
+                selling_price, stock);
         assertDoesNotThrow(() -> manager.addBooks(book));
     }
 
-    @Test
-    public void test_for_valid_ISBN2() throws ISBNnotValidException,
-            IOException {
-        Book book = new Book("1222a35io7",
-                "Albert Kamy",
-                "The stranger",
-                "Roman",
-                "28/12/2024",
-                20,
-                30,
-                20); //10 characters, between boundaries
-        assertDoesNotThrow( () -> manager.addBooks(book));
+
+    @ParameterizedTest
+    @CsvSource({
+            "1234t, ISBN should be at least 6 characters long", // Too short, lower bound violation
+            "1234t44oplii0w, ISBN should be at least 6 characters long" // Too long, upper bound violation
+    })
+    public void testForInvalidISBN(String isbn, String expectedMessage) throws
+            IOException, ISBNnotValidException {
+
+        Book book = new Book(isbn, "Albert Kamy", "The stranger",
+                "Roman", "28/12/2024",
+                20, 30, 20);
+
+        ISBNnotValidException exception = assertThrows(ISBNnotValidException.class, () -> manager.addBooks(book));
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
-    @Test
-    public void test_for_valid_ISBN3() throws ISBNnotValidException, IOException {
-        Book book = new Book("1222a357u90pf",
-                "Albert Kamy",
-                "The stranger",
-                "Roman",
-                "28/12/2024",
-                20,
-                30,
-                20); //13 characters, upper bound
+
+    @ParameterizedTest
+    @CsvSource({
+            "1234tp, Albert Kamy, The stranger, Roman, 28/12/2024, 20, 30, 20", // valid date, within bounds
+            "1234tp, Albert Kamy, The stranger, Roman, 1/12/2024, 20, 30, 20",  // valid date, lower bound
+            "1234tp, Albert Kamy, The stranger, Roman, 31/12/2024, 20, 30, 20"  // valid date, upper bound
+    })
+    public void test_for_valid_dateformat(String isbn, String author, String title, String genre,
+                                          String publishDate, int quantity, int price, int pages)
+            throws ISBNnotValidException, IOException {
+
+        Book book = new Book(isbn, author, title, genre, publishDate, quantity, price, pages);
+
         assertDoesNotThrow(() -> manager.addBooks(book));
     }
 
-    @Test
-    public void test_for_invalid_ISBN() throws ISBNnotValidException,
-            IOException {
-        Book book = new Book("1234t",
+    @ParameterizedTest
+    @CsvSource({
+            "28-12/2024, Invalid date format. The format required for the date to be entered is dd/MM/yyyy", // wrong separators
+            "32/12/2024, Invalid date format. The format required for the date to be entered is dd/MM/yyyy", // days out of range
+            "0/12/2024, Invalid date format. The format required for the date to be entered is dd/MM/yyyy"  // days less than minimum
+    })
+    public void test_for_invalid_dateformat(String publishDate, String expectedMessage) throws ISBNnotValidException, IOException {
+        Book book = new Book(
+                "1234tp",
                 "Albert Kamy",
                 "The stranger",
                 "Roman",
-                "28/12/2024",
+                publishDate,
                 20,
                 30,
-                20); // invalid ISBN little bit than lower bound
-                           // (out of range)
-       ISBNnotValidException exception =
-               assertThrows(ISBNnotValidException.class, () ->
-                       manager.addBooks(book));
-       assertEquals("ISBN should be at least 6 characters long",
-               exception.getMessage());
-    }
+                20);
 
-    @Test
-    public void test_for_invalid_ISBN2() throws ISBNnotValidException,
-            IOException {
-        Book book = new Book("1234t44oplii0w",
-                "Albert Kamy",
-                "The stranger",
-                "Roman",
-                "28/12/2024",
-                20,
-                30,
-                20); // invalid ISBN bigger than upper bound
-        // (out of range)
-        ISBNnotValidException exception =
-                assertThrows(ISBNnotValidException.class, () ->
-                        manager.addBooks(book));
-        assertEquals("ISBN should be at least 6 characters long",
-                exception.getMessage());
-    }
-
-    @Test
-    public void test_for_valid_dateformat() throws ISBNnotValidException,
-            IOException {
-        Book book = new Book("1234tp",
-                "Albert Kamy",
-                "The stranger",
-                "Roman",
-                "28/12/2024",
-                20,
-                30,
-                20); // valid date format dd/MM/yy -> 28/12/2024
-                          //also within range of low and upper bound
-        assertDoesNotThrow(() -> manager.addBooks(book));
-    }
-
-    @Test
-    public void test_for_valid_dateformat2() throws ISBNnotValidException,
-            IOException {
-        Book book = new Book("1234tp",
-                "Albert Kamy",
-                "The stranger",
-                "Roman",
-                "1/12/2024",
-                20,
-                30,
-                20); // valid date format as it is in lower bound
-        assertDoesNotThrow(() -> manager.addBooks(book));
-    }
-
-    @Test
-    public void test_for_valid_dateformat3() throws ISBNnotValidException,
-            IOException {
-        Book book = new Book("1234tp",
-                "Albert Kamy",
-                "The stranger",
-                "Roman",
-                "31/12/2024",
-                20,
-                30,
-                20); // valid date format as it is in upper bound
-        assertDoesNotThrow(() -> manager.addBooks(book));
-    }
-
-    @Test
-    public void test_for_invalid_dateformat() throws ISBNnotValidException,
-            IOException {
-        Book book = new Book("1234tp",
-                "Albert Kamy",
-                "The stranger",
-                "Roman",
-                "28-12/2024",
-                20,
-                30,
-                20); //invalid date format 28-12/2024
-       DateNotValidException exception = assertThrows(DateNotValidException.class,
-               () -> manager.addBooks(book));
-       assertEquals("Invalid date format. " +
-               "The format required for the date to be entered is"
-               + " " + "dd/MM/yyyy",exception.getMessage());
-    }
-
-    @Test
-    public void test_for_invalid_dateformat2() throws ISBNnotValidException,
-            IOException {
-        Book book = new Book("1234tp",
-                "Albert Kamy",
-                "The stranger",
-                "Roman",
-                "32/12/2024",
-                20,
-                30,
-                20); //invalid date as it is bigger than max number
-                           // of days (upper bound)
         DateNotValidException exception = assertThrows(DateNotValidException.class,
                 () -> manager.addBooks(book));
-        assertEquals("Invalid date format. " +
-                "The format required for the date to be entered is"
-                + " " + "dd/MM/yyyy",exception.getMessage());
+
+        assertEquals(expectedMessage, exception.getMessage());
     }
-
-    @Test
-    public void test_for_invalid_dateformat3() throws ISBNnotValidException,
-            IOException {
-        Book book = new Book("1234tp",
-                "Albert Kamy",
-                "The stranger",
-                "Roman",
-                "0/12/2024",
-                20,
-                30,
-                20); //invalid date as it is less than min number
-        // of days (lower bound)
-        DateNotValidException exception = assertThrows(DateNotValidException.class,
-                () -> manager.addBooks(book));
-        assertEquals("Invalid date format. " +
-                "The format required for the date to be entered is"
-                + " " + "dd/MM/yyyy",exception.getMessage());
-    }
-
-
 
 
     @Test

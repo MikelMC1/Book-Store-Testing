@@ -5,8 +5,8 @@ import exceptions.BillNotFoundException;
 import exceptions.BookNotFoundException;
 import exceptions.DateNotValidException;
 import exceptions.ISBNnotValidException;
+import useraccess.Librarian;
 import useraccess.Manager;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,8 +14,9 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws BillNotFoundException, DateNotValidException {
 
+    public static void main(String[] args) throws BillNotFoundException,
+            DateNotValidException {
 
         try {
             Scanner sc = new Scanner(System.in);
@@ -109,13 +110,16 @@ public class Main {
                         int quantity = sc.nextInt();
                         sc.nextLine();
 
-                        manager.Bill(transactionDate, requestedBook, quantity);
+                        Librarian librarian = new Librarian();
+                        librarian.Bill(transactionDate, requestedBook, quantity);
                         System.out.println("Bill generated successfully!");
                         break;
 
                     case 3:
                         System.out.println("Reading book details from file...");
-                        try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("bookstore.bin"))) {
+                        try (ObjectInputStream objectInputStream =
+                                     new ObjectInputStream(new FileInputStream(
+                                             "books.bin"))) {
                             System.out.println("Book details: " + objectInputStream.readObject());
                         }
                         break;
@@ -130,7 +134,9 @@ public class Main {
                         break;
 
                     case 5:
-                        System.out.println(manager.nr_Of_Bills_Without_filters());
+                        System.out.println("There have been sold" + " " +
+                                manager.nr_Of_Bills_Without_filters() + " " +
+                                "books till now");
                         break;
 
                     case 6:

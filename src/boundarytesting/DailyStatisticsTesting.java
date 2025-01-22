@@ -55,7 +55,7 @@ public class DailyStatisticsTesting {
     }
 
     @Test
-    public void test_dailyStatistics_with_outside() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
+    public void test_dailyStatistics_with_inside() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
 
         String date = "3/03/2024"; // inside bound where no book is sold
 

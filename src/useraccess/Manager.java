@@ -33,8 +33,7 @@ public class Manager extends Librarian implements Serializable {
     }
 
     public void addBooks(Book book) throws IOException,
-            ClassNotFoundException,
-            ISBNnotValidException, DateNotValidException,
+            ClassNotFoundException, ISBNnotValidException, DateNotValidException,
             BookNotFoundException {
 
         if (book.getISBN().length() < 6 || book.getISBN().length() > 13) {
@@ -64,9 +63,12 @@ public class Manager extends Librarian implements Serializable {
                     break;
 
                 } else {
-                    throw new ISBNnotValidException("ISBN should be unique for different books,so if you\n" +
-                            "want to use ISBN =" + " " + book1.getISBN() + " " + "," + "you can use it for the book of title" +
-                            " " + book1.getTitle() + " " + "written by" + " " + book1.getAuthor());
+                    throw new ISBNnotValidException("ISBN should be unique for " +
+                             "different books,so if you\n" +
+                            "want to use ISBN =" + " " + book1.getISBN() + " " + "," +
+                             "you can use it for the book of title" +
+                            " " + book1.getTitle() + " " + "written by" + " " +
+                              book1.getAuthor());
                 }
 
             }
@@ -101,7 +103,8 @@ public class Manager extends Librarian implements Serializable {
 
         readFile();
 
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"));
+        BufferedReader bufferedReader = new BufferedReader(
+                new FileReader("BILL.txt"));
 
 
         StringBuilder result = new StringBuilder();
@@ -152,7 +155,8 @@ public class Manager extends Librarian implements Serializable {
 
         readFile();
 
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"));
+        BufferedReader bufferedReader = new BufferedReader(
+                new FileReader("Bill.txt"));
         String line;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date1 = dateFormat.parse(date);
@@ -200,7 +204,8 @@ public class Manager extends Librarian implements Serializable {
 
         readFile();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"))) {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new FileReader("Bill.txt"))) {
             StringBuilder result = new StringBuilder();
 
             String line;
@@ -274,7 +279,9 @@ public class Manager extends Librarian implements Serializable {
 
     }
 
-    public ArrayList<Book> Monthly_Statistics_of_BooksBought(String startDate, String endDate) throws ParseException, IOException,
+    public ArrayList<Book> Monthly_Statistics_of_BooksBought(String startDate,
+                                                             String endDate) throws ParseException,
+            IOException,
             ClassNotFoundException, DateNotValidException, BookNotFoundException
     {
 
@@ -317,14 +324,15 @@ public class Manager extends Librarian implements Serializable {
 
     }
 
-    public String incomes_Without_filters() throws IOException,
+    public double incomes_Without_filters() throws IOException,
             BillNotFoundException {
 
         readFile();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"))) {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new FileReader("Bill.txt"))) {
 
-            int incomes = 0;
+            double incomes = 0;
             String line;
 
 
@@ -334,10 +342,8 @@ public class Manager extends Librarian implements Serializable {
 
                 if (parts.length == 5) {
 
-
-
-                        if (!line.trim().isEmpty()) {
-                            incomes += Integer.parseInt(parts[4]);
+                    if (!line.trim().isEmpty()) {
+                            incomes += Double.parseDouble(parts[4]);
                         }
                     }
 
@@ -347,11 +353,11 @@ public class Manager extends Librarian implements Serializable {
 
 
 
-            return String.valueOf(incomes);
+            return incomes;
 
         } catch (FileNotFoundException e) {
             // Handle the case where the file is not found (empty file)
-            return "0";
+            return 0.0;
         }
     }
 
@@ -365,7 +371,8 @@ public class Manager extends Librarian implements Serializable {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date1 = dateFormat.parse(date);
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"))) {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new FileReader("Bill.txt"))) {
 
             double incomes = 0.0;
             String line;
@@ -394,7 +401,7 @@ public class Manager extends Librarian implements Serializable {
 
         } catch (FileNotFoundException e) {
             // Handle the case where the file is not found (empty file)
-            return 0;
+            return 0.0;
         }
 
 
@@ -418,7 +425,8 @@ public class Manager extends Librarian implements Serializable {
 
         readFile();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("BILL.txt"))) {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new FileReader("Bill.txt"))) {
 
             double incomes = 0.0;
             String line;
@@ -475,7 +483,7 @@ public class Manager extends Librarian implements Serializable {
         readFile();
 
         BufferedReader bufferedReader = new BufferedReader(new FileReader
-                ("BILL.txt"));
+                ("Bill.txt"));
         StringBuilder stringBuilder = new StringBuilder();
 
         String line;
@@ -547,7 +555,12 @@ public class Manager extends Librarian implements Serializable {
 
 
         for (Book book : super.getBooks()) {
-            totalcost += book.getPurchased_price() * book.getStock();
+
+            Date date = dateFormat.parse(book.getPurchased_date());
+
+            if (date.compareTo(start) >= 0 && date.compareTo(end) <= 0) {
+                totalcost += book.getPurchased_price() * book.getStock();
+            }
         }
 
         return totalcost;

@@ -25,25 +25,29 @@ public class Librarian extends Book implements Serializable {
 
     public Librarian() throws IOException, ClassNotFoundException {
 
-
         books = new ArrayList<>();
 
-        file = new File("bookstore.bin");
+        file = new File("books.bin");
 
         if (!file.exists()) {
-            if (file.createNewFile()) {
-                System.out.println("Created new bookstore.bin file.");
-            } else {
-                System.out.println("Failed to create bookstore.bin file.");
-            }
+            file.createNewFile();
         } else {
             Read_books();
         }
+
         BillFile = new File("BILL.txt");
-        nrofbooksfile = new File("NrOfBooks.txt");
+        this.nrofbooksfile = new File("NrOfBooks.txt");
+
+        if (!nrofbooksfile.exists() && !BillFile.exists()) {
+            try {
+                nrofbooksfile.createNewFile();
+                BillFile.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Error creating file: " + e.getMessage());
+            }
+        }
 
     }
-
 
     public ArrayList<Book> getBooks() {
         return this.books;
@@ -65,7 +69,8 @@ public class Librarian extends Book implements Serializable {
     }
 
     public void writeBooksToFile() throws IOException {
-        ObjectOutputStream objectOutput = new ObjectOutputStream(new FileOutputStream(file));
+        ObjectOutputStream objectOutput = new ObjectOutputStream
+                (new FileOutputStream(file));
         objectOutput.writeObject(books);
         objectOutput.close();
     }
@@ -74,7 +79,8 @@ public class Librarian extends Book implements Serializable {
         this.books.add(book);
     }
 
-    public String getMonthlyTotal_books(String startDate, String endDate) throws IOException, DateNotValidException, ParseException, BookNotFoundException {
+    public String getMonthlyTotal_books(String startDate, String endDate) throws IOException,
+            DateNotValidException, ParseException, BookNotFoundException {
 
         isValid(startDate);
         isValid(endDate);
@@ -91,7 +97,8 @@ public class Librarian extends Book implements Serializable {
 
         if (!((nrofbooksfile.length()) == 0)) {
 
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader("NrOfBooks.txt"))) {
+            try (BufferedReader bufferedReader = new BufferedReader(
+                    new FileReader(nrofbooksfile))) {
                 String line;
 
                 int nr_of_books = 0;
@@ -201,15 +208,15 @@ public class Librarian extends Book implements Serializable {
 
     }
 
-    public ArrayList<Book> ItemsBought(String startdate, String enddate) throws IOException, ClassNotFoundException, DateNotValidException, ParseException {
+    public ArrayList<Book> ItemsBought(String start_date, String end_date) throws IOException, ClassNotFoundException, DateNotValidException, ParseException {
 
-        isValid(startdate);
-        isValid(enddate);
+        isValid(start_date);
+        isValid(end_date);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        Date start = dateFormat.parse(startdate);
-        Date end = dateFormat.parse(enddate);
+        Date start = dateFormat.parse(start_date);
+        Date end = dateFormat.parse(end_date);
 
 
         if (start.compareTo(end) > 0) {
@@ -257,8 +264,9 @@ public class Librarian extends Book implements Serializable {
 
     }
 
-    public String Bill(String date_of_transaction, String title, int quantity) throws
-            ParseException, DateNotValidException, BookNotFoundException, IOException {
+    public String Bill(String date_of_transaction, String title, int quantity)
+            throws ParseException, DateNotValidException, BookNotFoundException,
+            IOException {
         {
 
             isValid(date_of_transaction);
@@ -278,7 +286,10 @@ public class Librarian extends Book implements Serializable {
                         if (book.getStock() == 0) {
                             isOutOfStock = true;
                             break;
-                        } else if (quantity <= book.getStock()) {
+                        }
+
+                         else if (quantity <= book.getStock()) {
+
                             book.setStock(book.getStock() - quantity);
                             writeBooksToFile();
                             String billEntry = date_of_transaction + ", " +
@@ -292,8 +303,9 @@ public class Librarian extends Book implements Serializable {
                             nr_Of_Books(quantity, date_of_transaction);
 
 
-                            return date_of_transaction + "," + book.getISBN() + "," + book.getTitle() +
-                                    "," + quantity + "," + (book.getSelling_price() * quantity);
+                            return date_of_transaction + "," + book.getISBN() + "," +
+                                   book.getTitle() + "," + quantity + "," +
+                                   (book.getSelling_price() * quantity);
                         } else {
                             isEnough = false;
                             break;
@@ -310,6 +322,7 @@ public class Librarian extends Book implements Serializable {
                 if (!isEnough) {
                     throw new BookNotFoundException("There is not enough copies of " + " " + title);
                 }
+
                 throw new BookNotFoundException(title + " " + "is not available");
 
             } catch (IOException e) {
@@ -327,10 +340,11 @@ public class Librarian extends Book implements Serializable {
 
     }
 
-    public String nr_Of_Bills_Without_filters() throws IOException, BillNotFoundException {
+    public int nr_Of_Bills_Without_filters() throws IOException {
 
         if (!((BillFile.length()) == 0)) {
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(BillFile))) {
+            try (BufferedReader bufferedReader = new BufferedReader(
+                    new FileReader(BillFile))) {
 
                 int nrofbills = 0;
                 String line;
@@ -355,16 +369,17 @@ public class Librarian extends Book implements Serializable {
                     throw new BillNotFoundException();
                 }
 
-                return String.valueOf(nrofbills);
+                return nrofbills;
 
-            } catch (FileNotFoundException e) {
-                // Handle the case where the file is not found (empty file)
-                return "0";
+            } catch (BillNotFoundException e) {
+                return 0;
             }
         } else {
-            throw new BillNotFoundException("There have been no books sold till now");
+            return 0;
         }
     }
+
+
 
     public String nrOfDailyBills(String date) throws IOException, ParseException, DateNotValidException, BillNotFoundException {
 
@@ -482,7 +497,7 @@ public class Librarian extends Book implements Serializable {
 
 
     public void nr_Of_Books(int quantity, String date) throws IOException, ParseException {
-        File file = new File("NrOfBooks.txt");
+        File file = new File(String.valueOf(nrofbooksfile));
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date transactionDate = dateFormat.parse(date);
 

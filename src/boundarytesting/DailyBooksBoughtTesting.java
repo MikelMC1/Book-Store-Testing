@@ -29,9 +29,8 @@ public class DailyBooksBoughtTesting {
         ArrayList<Book> actual_value = this.manager.
                 Daily_Statistics_ofBooksBought(date);
         String expected = """
-                [ISBN=111aaa   author=Albert Kamy
-                title=I huaji   book_category=Roman
-                purchased_date=23/02/2024   purchased_price=10.0   stock=16]""";
+               [ISBN=111aaa author=Albert Kamy title=I huaji book_category=Roman 
+               purchased_date=23/02/2024 purchased_price=10.0 stock=4]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -47,9 +46,9 @@ public class DailyBooksBoughtTesting {
         ArrayList<Book> actual_value = this.manager.
                 Daily_Statistics_ofBooksBought(date);
         String expected = """
-                [ISBN=9001101   author=Leon Tolstoi   title=Ana Karenina
-                book_category=Roman   purchased_date=13/03/2024
-                purchased_price=13.0   stock=35]""";
+                [ISBN=9001101 author=Leon Tolstoi 
+                title=Ana Karenina book_category=Roman 
+                purchased_date=13/03/2024 purchased_price=13.0 stock=35]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -66,9 +65,9 @@ public class DailyBooksBoughtTesting {
                 Daily_Statistics_ofBooksBought(date);
         String expected = """
       [ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim 
-      book_category=Roman purchased_date=03/03/2024 purchased_price=10.0 stock=34, 
-      ISBN=70000000 author=Miguel De Servantes title=Don Kishoti 
-      book_category=Roman purchased_date=03/03/2024 purchased_price=20.0 stock=23]""";
+      book_category=Roman purchased_date=03/03/2024 purchased_price=10.0 stock=13, 
+      ISBN=70000000 author=Miguel De Servantes title=Don Kishoti book_category=Roman 
+      purchased_date=03/03/2024 purchased_price=20.0 stock=17]""";
 
 
         expected = expected.trim().replaceAll("\\s+", " ");
