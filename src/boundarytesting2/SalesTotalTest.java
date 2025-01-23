@@ -27,7 +27,7 @@ public class SalesTotalTest {
     @Test
     public void testBooksSoldOnBoundaryDate() {
         try {
-            assertNotNull(librarian.getDailyTotal_books("03/02/2024"));
+            assertNotNull(librarian.getDailyTotal_books("8/03/2024"));
         } catch (Exception e) {
             fail("Valid date should return daily book count");
         }

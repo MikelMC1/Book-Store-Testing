@@ -38,12 +38,12 @@ public class Manager extends Librarian implements Serializable {
 
         if (book.getISBN().length() < 6 || book.getISBN().length() > 13) {
             throw new ISBNnotValidException("ISBN should be at least 6 " +
-                    "characters long");
+                    "characters long and no longer than 13 characters long");
         }
 
         if (book.getStock() <= 0) {
             throw new IOException("Stock cannot be less than one when you " +
-                    "add" + "a book");
+                    "add" + " " + "a book");
         }
 
         isValid(book.getPurchased_date());

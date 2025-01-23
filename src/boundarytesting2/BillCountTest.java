@@ -28,7 +28,7 @@ public class BillCountTest {
     @Test
     public void testBillsForSpecificDate() {
         try {
-            assertNotNull(librarian.nrOfDailyBills("01/01/2024"));
+            assertNotNull(librarian.nrOfDailyBills("2/03/2024"));
         } catch (Exception e) {
             fail("Daily bill count should be returned successfully");
         }

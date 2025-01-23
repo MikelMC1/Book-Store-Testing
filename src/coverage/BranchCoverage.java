@@ -27,7 +27,7 @@ public class BranchCoverage {
         // Add a completely new book
         Book book = new Book("9780141182803", "George Orwell",
                 "1984", "Dystopian",
-                "01/01/2025", 15, 30, 5);
+                "01/01/2028", 15, 30, 5);
 
         manager.addBooks(book);
 
@@ -40,12 +40,12 @@ public class BranchCoverage {
             DateNotValidException, BookNotFoundException, ClassNotFoundException {
         // Add an existing book
         Book existingBook = new Book("9780743273565", "F. Scott Fitzgerald",
-                "The Great Gatsby", "Novel", "01/01/2025", 10, 25, 10);
+                "The Great Gatsby", "Novel", "01/01/2028", 10, 25, 10);
         manager.addBooks(existingBook);
 
         // Add another book with the same ISBN, title, and author
         Book duplicateBook = new Book("9780743273565", "F. Scott Fitzgerald",
-                "The Great Gatsby", "Novel", "02/01/2025", 10, 25, 5);
+                "The Great Gatsby", "Novel", "02/01/2028", 10, 25, 5);
         manager.addBooks(duplicateBook);
 
         // Verify the stock is updated
@@ -62,7 +62,7 @@ public class BranchCoverage {
             ClassNotFoundException {
         // Add an existing book
         Book existingBook = new Book("9780553293357", "J.R.R. Tolkien",
-                "The Hobbit", "Fantasy", "01/01/2025", 10, 25, 10);
+                "The Hobbit", "Fantasy", "01/01/2028", 10, 25, 10);
         manager.addBooks(existingBook);
 
         // Add another book with the same ISBN but different title or author
@@ -81,7 +81,7 @@ public class BranchCoverage {
     public void test_invalidISBN() throws ISBNnotValidException, IOException {
         // Add a book with an invalid ISBN
         Book invalidISBNBook = new Book("123", "Mary Shelley", "Frankenstein",
-                "Horror", "01/01/2025", 10, 20, 5);
+                "Horror", "01/01/2028", 10, 20, 5);
 
         ISBNnotValidException exception = assertThrows(ISBNnotValidException.class,
                 () -> manager.addBooks(invalidISBNBook));
@@ -94,7 +94,7 @@ public class BranchCoverage {
     public void test_invalidStock() throws ISBNnotValidException, IOException {
         // Add a book with invalid stock
         Book invalidStockBook = new Book("9780061120084", "Harper Lee", "To Kill a Mockingbird",
-                "Fiction", "01/01/2025", 10, 20, 0);
+                "Fiction", "01/01/2028", 10, 20, 0);
 
         IOException exception = assertThrows(IOException.class,
                 () -> manager.addBooks(invalidStockBook));

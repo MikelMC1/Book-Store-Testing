@@ -25,7 +25,10 @@ public class BillGenerationTest {
     @Test
     public void testOutOfStock() {
         try {
-            librarian.addBookstolist(new Book("12345", "Test Author", "Test Book", "Fiction", "01/01/2024", 10.0, 20.0, 0));
+            librarian.addBookstolist(new Book("12345", "Test Author",
+                    "Test Book", "Fiction",
+                    "01/01/2024",
+                    10.0, 20.0, 0));
             assertThrows(BookNotFoundException.class, () -> librarian.Bill("01/01/2024", "Test Book", 1));
         } catch (Exception e) {
             fail("Out of stock should throw BookNotFoundException");
@@ -35,7 +38,9 @@ public class BillGenerationTest {
     @Test
     public void testNotEnoughStock() {
         try {
-            Book book = new Book("12345", "Test Author", "Test Book", "Fiction", "01/01/2024", 10.0, 20.0, 5);
+            Book book = new Book("12345", "Test Author", "Test Book",
+                    "Fiction", "01/01/2027",
+                    10.0, 20.0, 5);
             librarian.addBookstolist(book);
             assertThrows(BookNotFoundException.class, () -> librarian.Bill("01/01/2024", "Test Book", 10));
         } catch (Exception e) {
@@ -55,7 +60,7 @@ public class BillGenerationTest {
     public void testInvalidDateFormat() {
         try {
             // Adding a book with sufficient stock
-            Book book = new Book("12345", "Test Author", "Test Book", "Fiction", "01/01/2024", 10.0, 20.0, 10);
+            Book book = new Book("12345", "Test Author", "Test Book", "Fiction", "01/01/2027", 10.0, 20.0, 10);
             librarian.addBookstolist(book);
 
             // Attempt to generate a bill with an invalid date format
@@ -71,9 +76,6 @@ public class BillGenerationTest {
     @Test
     public void testLargeQuantity() {
         try {
-            // Adding a book with limited stock
-            Book book = new Book("12345", "Test Author", "Test Book", "Fiction", "01/01/2024", 10.0, 20.0, 10);
-            librarian.addBookstolist(book);
 
             // Attempt to generate a bill with a quantity larger than stock
             assertThrows(BookNotFoundException.class, () -> {

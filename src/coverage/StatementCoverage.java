@@ -24,7 +24,7 @@ public class StatementCoverage {
     @Test
     public void test_for_invalid_ISBN() throws ISBNnotValidException, IOException {
         Book book = new Book("1234","Ismail Kadare","Pallati i Endrrave",
-                "Roman","1/01/2025",12,
+                "Roman","1/01/2028",12,
                 20,10);
         ISBNnotValidException exception = assertThrows(ISBNnotValidException.class,
                 () -> manager.addBooks(book));
@@ -35,7 +35,7 @@ public class StatementCoverage {
     @Test
     public void test_for_invalid_stock() throws ISBNnotValidException, IOException {
         Book book = new Book("123456","Ismail Kadare","Pallati i Endrrave",
-                "Roman","1/01/2025",12,
+                "Roman","1/01/2028",12,
                 20,0);
         IOException exception = assertThrows(IOException.class,
                 () -> manager.addBooks(book));
@@ -49,7 +49,7 @@ public class StatementCoverage {
 
         assertDoesNotThrow(() -> manager.Read_books());
         Book book = new Book("89238rtyeq","Balzak",
-                "Xha Gorioi", "Roman","7/01/2025",
+                "Xha Gorioi", "Roman","7/01/2028",
                 12, 20,10);
         manager.addBooks(book);
         assertDoesNotThrow(() -> manager.isValid(book.getPurchased_date()));
@@ -65,13 +65,13 @@ public class StatementCoverage {
 
         // Add an initial book to the list
         Book book1 = new Book("123458", "Shekspiri", "Rome dhe Zhulieta",
-                "Drame", "3/01/2025", 12,
+                "Drame", "3/01/2028", 12,
                 20, 10);
         manager.addBooks(book1);
 
         // Add another book with the same ISBN and check if the stock is updated
         Book book2 = new Book("123458", "Shekspiri", "Rome dhe Zhulieta",
-                "Drame", "3/01/2025", 12,
+                "Drame", "3/01/2028", 12,
                 20, 5);
         manager.addBooks(book2);
 
@@ -91,7 +91,7 @@ public class StatementCoverage {
         // when a book with same ISBN is added, and the stock is being updated
         Book book = new Book("123456","Shekspiri",
                 "Hamleti", "Drame",
-                "3/01/2025",12,
+                "3/01/2028",12,
                 20,5);
         ISBNnotValidException exception = assertThrows(ISBNnotValidException.class,
                 () -> manager.addBooks(book));
@@ -109,7 +109,7 @@ public class StatementCoverage {
         // for valid dates we have tested in the above methods
         Book book = new Book("1299990","Shekspiri",
                 "Hamleti", "Drame",
-                "3-01/2025",12,
+                "3-01/2028",12,
                 20,5);
         DateNotValidException exception = assertThrows(DateNotValidException.class,
                 () -> manager.addBooks(book));

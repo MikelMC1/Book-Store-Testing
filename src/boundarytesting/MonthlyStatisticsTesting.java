@@ -99,7 +99,8 @@ public class MonthlyStatisticsTesting {
     // during that period
 
     @Test
-    public void test_with_dates_within_bounds() throws DateNotValidException, IOException, ParseException, BillNotFoundException {
+    public void test_with_dates_within_bounds() throws DateNotValidException,
+            IOException, ParseException, BillNotFoundException {
         String start_date = "2/03/2024";
         String end_date = "14/03/2024"; // different dates where books are sold
         // lower and upper bound included

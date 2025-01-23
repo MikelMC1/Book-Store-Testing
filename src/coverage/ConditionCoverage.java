@@ -24,7 +24,7 @@ public class ConditionCoverage {
     @Test
     public void test_invalidISBNLengthLessThan6() throws IOException, ISBNnotValidException {
         Book shortISBNBook = new Book("12345", "Jean-Paul Sartre", "Nausea",
-                "Philosophy", "01/01/2025", 10, 20, 5);
+                "Philosophy", "01/01/2028", 10, 20, 5);
 
         ISBNnotValidException exception = assertThrows(ISBNnotValidException.class,
                 () -> manager.addBooks(shortISBNBook));
@@ -35,7 +35,7 @@ public class ConditionCoverage {
     @Test
     public void test_invalidISBNLengthGreaterThan13() throws IOException, ISBNnotValidException {
         Book longISBNBook = new Book("12345678901234", "Naim Frashëri", "Bagëti e Bujqësi",
-                "Poetry", "01/01/2025", 10, 20, 5);
+                "Poetry", "01/01/2028", 10, 20, 5);
 
         ISBNnotValidException exception = assertThrows(ISBNnotValidException.class,
                 () -> manager.addBooks(longISBNBook));
@@ -50,7 +50,7 @@ public class ConditionCoverage {
 
         Book validISBNBook = new Book("1234567", "Homer",
                 "The Iliad", "Epic",
-                "01/01/2025", 10, 20, 5);
+                "01/01/2028", 10, 20, 5);
         // also valid stock and unique ISBN which means the condition
         // if (book.getISBN().equals(book1.getISBN())) is taken false
 
@@ -67,7 +67,7 @@ public class ConditionCoverage {
 
         Book existingBook = new Book("1234567890123", "Homer",
                 "The Odyssey", "Epic",
-                "01/01/2025", 10, 20, 5);
+                "01/01/2028", 10, 20, 5);
         manager.addBooks(existingBook);
 
         Book duplicateBook = new Book("1234567890123", "Homer", "The Odyssey",
@@ -85,7 +85,7 @@ public class ConditionCoverage {
     @Test
     public void test_invalidStock() throws IOException, ISBNnotValidException {
         Book invalidStockBook = new Book("1234567890123", "Naim Frashëri", "Lulet e Verës",
-                "Poetry", "01/01/2025",
+                "Poetry", "01/01/2028",
                 10, 20, 0);
 
         IOException exception = assertThrows(IOException.class,
@@ -100,7 +100,7 @@ public class ConditionCoverage {
             DateNotValidException, BookNotFoundException, ClassNotFoundException {
         Book validStockBook = new Book("123456789012l", "Fjodor Dostojevksi",
                 "Idiot",
-                "Roman", "1/01/2025",
+                "Roman", "1/01/2028",
                 10, 20, 5);
 
         manager.addBooks(validStockBook);
@@ -112,11 +112,11 @@ public class ConditionCoverage {
     public void test_authorMatchesButTitleDiffers() throws IOException, ISBNnotValidException,
             DateNotValidException, BookNotFoundException, ClassNotFoundException {
         Book existingBook = new Book("12345678901ph", "Homer", "The Iliad",
-                "Epic", "01/01/2025", 10, 20, 5);
+                "Epic", "01/01/2028", 10, 20, 5);
         manager.addBooks(existingBook);
 
         Book newBook = new Book("12345678901ph", "Homer", "The Odyssey",
-                "Epic", "02/01/2025", 10, 20, 5);
+                "Epic", "02/01/2028", 10, 20, 5);
 
         ISBNnotValidException exception = assertThrows(ISBNnotValidException.class,
                 () -> manager.addBooks(newBook));
@@ -128,12 +128,12 @@ public class ConditionCoverage {
     public void test_titleMatchesButAuthorDiffers() throws IOException, ISBNnotValidException,
             DateNotValidException, BookNotFoundException, ClassNotFoundException {
         Book existingBook = new Book("12345678901mb", "Naim Frashëri", "Bagëti e Bujqësi",
-                "Poetry", "01/01/2025", 10, 20, 5);
+                "Poetry", "01/01/2028", 10, 20, 5);
         manager.addBooks(existingBook);
 
         Book newBook = new Book("12345678901mb", "Jean-Paul Sartre",
                 "Bagëti e Bujqësi",
-                "Philosophy", "02/01/2025", 10, 20, 5);
+                "Philosophy", "02/01/2028", 10, 20, 5);
 
         ISBNnotValidException exception = assertThrows(ISBNnotValidException.class,
                 () -> manager.addBooks(newBook));

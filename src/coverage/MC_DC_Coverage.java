@@ -26,7 +26,7 @@ public class MC_DC_Coverage {
         // Valid ISBN (6-13 characters)
         Book validBook = new Book("111111", "Victor Hugo",
                 "Les Misérables", "Novel",
-                "01/01/2025", 10, 25, 5);
+                "01/01/2028", 10, 25, 5);
         manager.addBooks(validBook);
 
         assertTrue(manager.getBooks().contains(validBook));
@@ -35,7 +35,9 @@ public class MC_DC_Coverage {
     @Test
     public void test_isbnTooShort() throws ISBNnotValidException, IOException {
         // ISBN shorter than 6 characters
-        Book shortISBNBook = new Book("12345", "Migjeni", "Vargje të Lira", "Poetry", "01/01/2025", 10, 20, 5);
+        Book shortISBNBook = new Book("12345", "Migjeni",
+                "Vargje të Lira", "Poetry",
+                "01/01/2028", 10, 20, 5);
 
         ISBNnotValidException exception = assertThrows(ISBNnotValidException.class,
                 () -> manager.addBooks(shortISBNBook));
@@ -46,7 +48,8 @@ public class MC_DC_Coverage {
     @Test
     public void test_isbnTooLong() throws ISBNnotValidException, IOException {
         // ISBN longer than 13 characters
-        Book longISBNBook = new Book("12345678901234", "Franz Kafka", "The Trial", "Novel", "01/01/2025", 10, 25, 5);
+        Book longISBNBook = new Book("12345678901234", "Franz Kafka",
+                "The Trial", "Novel", "01/01/2028", 10, 25, 5);
 
         ISBNnotValidException exception = assertThrows(ISBNnotValidException.class,
                 () -> manager.addBooks(longISBNBook));
@@ -62,7 +65,8 @@ public class MC_DC_Coverage {
         Book firstBook = new Book("222222", "Victor Hugo", "Les Misérables", "Novel", "01/01/2025", 10, 25, 5);
         manager.addBooks(firstBook);
 
-        Book conflictingBook = new Book("222222", "Migjeni", "Vargje të Lira", "Poetry", "02/01/2025", 10, 20, 5);
+        Book conflictingBook = new Book("222222", "Migjeni",
+                "Vargje të Lira", "Poetry", "02/01/2028", 10, 20, 5);
 
         ISBNnotValidException exception = assertThrows(ISBNnotValidException.class,
                 () -> manager.addBooks(conflictingBook));
@@ -77,12 +81,12 @@ public class MC_DC_Coverage {
 
         // Adding a book with the same ISBN, author, and title
         Book firstBook = new Book("333334", "Franz Kafka",
-                "Metamorfoza", "Novel", "01/01/2025",
+                "Metamorfoza", "Novel", "01/01/2028",
                 10, 25, 5);
         manager.addBooks(firstBook);
 
         Book duplicateBook = new Book("333334", "Franz Kafka",
-                "Metamorfoza", "Novel", "01/01/2025",
+                "Metamorfoza", "Novel", "01/01/2028",
                 15, 30, 10);
         manager.addBooks(duplicateBook);
 
@@ -96,7 +100,8 @@ public class MC_DC_Coverage {
     @Test
     public void test_invalidStock() throws ISBNnotValidException, IOException {
         // Invalid stock (less than 1)
-        Book invalidStockBook = new Book("444444", "Migjeni", "Vargje të Lira", "Poetry", "01/01/2025", 10, 20, 0);
+        Book invalidStockBook = new Book("444444", "Migjeni",
+                "Vargje të Lira", "Poetry", "01/01/2028", 10, 20, 0);
 
         IOException exception = assertThrows(IOException.class,
                 () -> manager.addBooks(invalidStockBook));
@@ -108,7 +113,9 @@ public class MC_DC_Coverage {
     public void test_validStock() throws IOException, ISBNnotValidException,
             DateNotValidException, BookNotFoundException, ClassNotFoundException {
         // Valid stock (greater than or equal to 1)
-        Book validStockBook = new Book("555555", "Victor Hugo", "Notre-Dame de Paris", "Novel", "01/01/2025", 10, 30, 5);
+        Book validStockBook = new Book("555555", "Victor Hugo",
+                "Notre-Dame de Paris", "Novel",
+                "01/01/2028", 10, 30, 5);
 
         manager.addBooks(validStockBook);
 

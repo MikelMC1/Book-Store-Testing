@@ -45,8 +45,8 @@ public class Add_Book_Testing {
 
     @ParameterizedTest
     @CsvSource({
-            "1234t, ISBN should be at least 6 characters long", // Too short, lower bound violation
-            "1234t44oplii0w, ISBN should be at least 6 characters long" // Too long, upper bound violation
+            "1234t, ISBN should be at least 6 characters long and no longer than 13 characters long", // Too short, lower bound violation
+            "1234t44oplii0w, ISBN should be at least 6 characters long and no longer than 13 characters long" // Too long, upper bound violation
     })
     public void testForInvalidISBN(String isbn, String expectedMessage) throws
             IOException, ISBNnotValidException {

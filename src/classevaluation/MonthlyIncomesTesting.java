@@ -33,7 +33,7 @@ public class MonthlyIncomesTesting {
         double expected_income = 320.0;
 
         assertEquals(expected_income, manager.certain_period_incomes(start_date,
-                end_date),0.1);
+                end_date), 0.1);
     }
 
     @Test

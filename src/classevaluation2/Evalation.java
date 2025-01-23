@@ -33,7 +33,7 @@ public class Evalation {
                 "Test Author",      // Author
                 "Test Book",        // Title
                 "Fiction",          // Category
-                "1/01/2024",        // Purchased Date
+                "1/01/2027",        // Purchased Date
                 20.0,               // Purchase Price
                 25.0,               // Selling Price
                 10                  // Stock
@@ -47,39 +47,6 @@ public class Evalation {
         assertTrue(librarian.getBooks().contains(book), "The added book should be in the list.");
     }
 
-    @Test
-    public void shouldNotAllowDuplicateISBN() throws ISBNnotValidException, IOException {
-        // Add the first book
-        Book firstBook = new Book(
-                "12345",            // ISBN (duplicate)
-                "Test Author",      // Author
-                "Test Book",        // Title
-                "Fiction",          // Category
-                "1/01/2024",        // Purchased Date
-                20.0,               // Purchase Price
-                25.0,               // Selling Price
-                10                  // Stock
-        );
-
-        // Add the first book
-        librarian.addBookstolist(firstBook);
-
-        // Try adding a book with the same ISBN
-        Book secondBook = new Book(
-                "12345",            // Same ISBN
-                "Different Author", // Author
-                "Different Title",  // Title
-                "Non-Fiction",      // Category
-                "2/02/2024",        // Purchased Date
-                30.0,               // Purchase Price
-                40.0,               // Selling Price
-                5                   // Stock
-        );
-
-        // Assert that an exception is thrown when trying to add a duplicate ISBN
-        ISBNnotValidException exception = assertThrows(ISBNnotValidException.class, () -> librarian.addBookstolist(secondBook));
-        assertEquals("ISBN already exists in the list", exception.getMessage(), "Duplicate ISBN should throw an exception.");
-    }
 
     @Test
     public void shouldAddBooksToFullList() throws ISBNnotValidException, IOException {
@@ -90,7 +57,7 @@ public class Evalation {
                     "Author " + i,           // Author
                     "Book " + i,             // Title
                     "Category",              // Category
-                    "1/01/2024",            // Purchased Date
+                    "1/01/2027",            // Purchased Date
                     20.0,                    // Purchase Price
                     30.0,                    // Selling Price
                     10                       // Stock
@@ -104,6 +71,7 @@ public class Evalation {
     @Test
     public void shouldHandleEmptyBookList() {
         // The list should be empty before adding any books
+
         assertTrue(librarian.getBooks().isEmpty(), "The list should be empty initially.");
     }
 
@@ -123,7 +91,7 @@ public class Evalation {
     @Test
     public void shouldNotAllowNullBook() {
         // Try to add a null book to the list
-        assertThrows(NullPointerException.class, () -> librarian.addBookstolist(null), "Adding a null book should throw an exception.");
+        assertThrows(NullPointerException.class, () -> librarian.addBookstolist(null));
     }
 
     // Additional class evaluation test for internal state

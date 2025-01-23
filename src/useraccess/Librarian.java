@@ -75,7 +75,11 @@ public class Librarian extends Book implements Serializable {
         objectOutput.close();
     }
 
-    public void addBookstolist(Book book) {
+    public void addBookstolist(Book book) throws NullPointerException {
+
+        if(book == null){
+            throw new NullPointerException("Book should contain data");
+        }
         this.books.add(book);
     }
 

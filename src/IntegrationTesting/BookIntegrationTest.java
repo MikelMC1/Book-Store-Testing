@@ -19,8 +19,10 @@ public class BookIntegrationTest {
     private Librarian librarian;
     private Manager manager;
 
+
     @BeforeEach
-    public void setup() throws BookNotFoundException, IOException, ClassNotFoundException {
+    public void setup() throws BookNotFoundException, IOException,
+            ClassNotFoundException {
         this.manager = new Manager();
         this.librarian = new Librarian();
     }
@@ -31,11 +33,14 @@ public class BookIntegrationTest {
             ParseException, BillNotFoundException {
 
         // Add a book
+        // 5 books now Hamleti
         Book book2 = new Book("18211821", "Shekspiri", "Hamleti",
-                "Drame", "16/03/2024", 10, 15.0,
-                4);
+                "Drame", "16/03/2024", 10,
+                15.0,
+                6);
         manager.addBooks(book2);
 
+        setup();
 
         // Create a bill
         String bill = librarian.Bill("16/04/2024", "Hamleti", 2);
@@ -47,15 +52,24 @@ public class BookIntegrationTest {
     }
 
     @Test
-    public void testBookAddition_And_MonthlyStatistics() throws ISBNnotValidException,
+    public void testBookAddition_And_MonthlyStatistics() throws
             IOException, DateNotValidException, BookNotFoundException,
-            ParseException, BillNotFoundException {
+            ParseException, BillNotFoundException, ISBNnotValidException, ClassNotFoundException {
 
+        Book book = new Book("134367yu","Dritero Agolli",
+                "Shkelqimi dhe Renia e shokut" + " " + "Zylo",
+                "Roman","16/03/2024",10,
+                20,7);
 
-        String bill = librarian.Bill("16/04/2024","Shkelqimi dhe Renia e shokut" + " " +
+        manager.addBooks(book);
+
+        setup();
+
+        String bill = librarian.Bill("16/04/2024",
+                "Shkelqimi dhe Renia e shokut" + " " +
                 "Zylo",1);
         assertEquals("16/04/2024,134367yu,Shkelqimi dhe Renia e shokut Zylo,1,20.0",
-                bill);
+                bill); // now 50 books of this type
 
         //upper bound included
         String monthlySales = manager.getMonthly_Statistics_of_BooksSold("8/03/2024",
@@ -72,14 +86,22 @@ public class BookIntegrationTest {
     @Test
     public void testBookAddition_And_MonthlyStatistics2() throws IOException,
             DateNotValidException, BookNotFoundException,
-            ParseException, BillNotFoundException {
+            ParseException, BillNotFoundException, ISBNnotValidException, ClassNotFoundException {
 
+        Book book = new Book("134367yu","Dritero Agolli",
+                "Shkelqimi dhe Renia e shokut" + " " + "Zylo",
+                "Roman","16/03/2024",10,
+                20,7);
+
+        manager.addBooks(book);
+
+        setup();
 
         String bill = librarian.Bill("17/04/2024",
                 "Shkelqimi dhe Renia e shokut" + " " +
                 "Zylo",2);
         assertEquals("17/04/2024,134367yu,Shkelqimi dhe Renia e shokut Zylo,2,40.0",
-                bill);
+                bill); //now 55 books
 
         //lower bound included
         String monthlySales = manager.getMonthly_Statistics_of_BooksSold("2/03/2024",
@@ -102,16 +124,20 @@ public class BookIntegrationTest {
 
         Book book = new Book("134367yu","Dritero Agolli",
                 "Shkelqimi dhe Renia e shokut" + " " + "Zylo",
-                "Roman","17/04/2024",10,
+                "Roman","16/03/2024",10,
                 20,7);
 
         manager.addBooks(book);
+
+        setup();
 
         String bill = librarian.Bill("17/04/2024",
                 "Shkelqimi dhe Renia e shokut" + " " +
                         "Zylo",1);
         assertEquals("17/04/2024,134367yu,Shkelqimi dhe Renia e shokut Zylo,1,20.0",
                 bill);
+
+        // now 61 books of this type
 
         //outside bounds dates
         String monthlySales = manager.getMonthly_Statistics_of_BooksSold("20/02/2024",
@@ -120,44 +146,45 @@ public class BookIntegrationTest {
                 " " + "1/03/2024",monthlySales);
 
     }
-
     @Test
     public void testBookAddition_And_MonthlyStatistics4() throws
             IOException, DateNotValidException, BookNotFoundException,
             ParseException, BillNotFoundException, ISBNnotValidException,
             ClassNotFoundException {
 
-        Book book = new Book("134367yu","Dritero Agolli",
-                "Shkelqimi dhe Renia e shokut" + " " + "Zylo",
-                "Roman","17/04/2024",10,
-                20,7);
-
+        // Create and add a new book
+        Book book = new Book("134367yu", "Dritero Agolli",
+                "Shkelqimi dhe Renia e shokut Zylo",
+                "Roman", "16/03/2024", 10,
+                20, 7);
         manager.addBooks(book);
 
-        String bill = librarian.Bill("17/04/2024",
-                "Shkelqimi dhe Renia e shokut" + " " +
-                        "Zylo",1);
-        assertEquals("17/04/2024,134367yu,Shkelqimi dhe Renia e shokut Zylo,1,20.0",
-                bill);
+        // Setup the environment
+        setup();
 
+        // Generate a bill for the book
+        String bill = librarian.Bill("17/04/2024", "Shkelqimi dhe Renia e shokut Zylo", 1);
+        assertEquals("17/04/2024,134367yu,Shkelqimi dhe Renia e shokut Zylo,1,20.0", bill);
 
+        // Check monthly sales report
         String monthlySales = manager.getBooksSoldWithoutFilters();
-        assertEquals("""
-                        2/03/2024, 144ty58, Krim dhe ndeshkim, 2, 60.0
-                        2/03/2024, 144ty58, Krim dhe ndeshkim, 2, 60.0
-                        2/03/2024, 144ty58, Krim dhe ndeshkim, 2, 60.0
-                        2/03/2024, 111aaa, I huaji, 1, 15.0
-                        8/03/2024, 70000000, Don Kishoti, 2, 50.0
-                        8/03/2024, 144ty58, Krim dhe ndeshkim, 1, 30.0
-                        14/03/2024, 111aaa, I huaji, 3, 45.0
-                        16/04/2024, 18211821, Hamleti, 2, 30.0
-                        16/04/2024, 134367yu, Shkelqimi dhe Renia e shokut Zylo, 1, 20.0
-                        17/04/2024, 134367yu, Shkelqimi dhe Renia e shokut Zylo, 2, 40.0
-                        17/04/2024, 134367yu, Shkelqimi dhe Renia e shokut Zylo, 1, 20.0
-                        17/04/2024, 134367yu, Shkelqimi dhe Renia e shokut Zylo, 1, 20.0""",
-                monthlySales);
-
+        assertEquals(
+                "2/03/2024, 144ty58, Krim dhe ndeshkim, 2, 60.0\n" +
+                        "2/03/2024, 144ty58, Krim dhe ndeshkim, 2, 60.0\n" +
+                        "2/03/2024, 144ty58, Krim dhe ndeshkim, 2, 60.0\n" +
+                        "2/03/2024, 111aaa, I huaji, 1, 15.0\n" +
+                        "8/03/2024, 70000000, Don Kishoti, 2, 50.0\n" +
+                        "8/03/2024, 144ty58, Krim dhe ndeshkim, 1, 30.0\n" +
+                        "14/03/2024, 111aaa, I huaji, 3, 45.0\n" +
+                        "16/04/2024, 18211821, Hamleti, 2, 30.0\n" +
+                        "16/04/2024, 134367yu, Shkelqimi dhe Renia e shokut Zylo, 1, 20.0\n" +
+                        "17/04/2024, 134367yu, Shkelqimi dhe Renia e shokut Zylo, 2, 40.0\n" +
+                        "17/04/2024, 134367yu, Shkelqimi dhe Renia e shokut Zylo, 1, 20.0\n" +
+                        "17/04/2024, 134367yu, Shkelqimi dhe Renia e shokut Zylo, 1, 20.0",
+                monthlySales
+        );
     }
+
 
     @Test
     public void testBookAddition_And_Monthly_BooksBought_Statistics() throws
@@ -180,13 +207,17 @@ public class BookIntegrationTest {
      ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim 
      book_category=Roman purchased_date=03/03/2024 purchased_price=10.0 stock=13, 
      ISBN=70000000 author=Miguel De Servantes title=Don Kishoti book_category=Roman 
-     purchased_date=03/03/2024 purchased_price=20.0 stock=17, ISBN=9001101 
-     author=Leon Tolstoi title=Ana Karenina book_category=Roman 
-     purchased_date=13/03/2024 purchased_price=13.0 stock=35, 
-     ISBN=134367yu author=Dritero Agolli title=Shkelqimi dhe Renia e shokut Zylo 
-     book_category=Roman purchased_date=16/03/2024 purchased_price=10.0 stock=30, 
+     purchased_date=03/03/2024 purchased_price=20.0 stock=17, 
+     ISBN=9001101 author=Leon Tolstoi title=Ana Karenina book_category=Roman 
+     purchased_date=13/03/2024 purchased_price=13.0 stock=35, ISBN=134367yu 
+     author=Dritero Agolli title=Shkelqimi dhe Renia e shokut Zylo 
+     book_category=Roman purchased_date=16/03/2024 purchased_price=10.0 stock=74, 
      ISBN=18211821 author=Shekspiri title=Hamleti book_category=Drame 
-     purchased_date=16/03/2024 purchased_price=10.0 stock=7]""";
+     purchased_date=16/03/2024 purchased_price=10.0 stock=19, ISBN=12345k 
+     author=Shekspiri title=Romeo dhe Zhulieta book_category=Drame 
+     purchased_date=01/01/2026 purchased_price=10.0 stock=0, 
+     ISBN=12345tui author=Pushkin title=Ciganet book_category=Poem 
+     purchased_date=01/01/2026 purchased_price=10.0 stock=0]""";
 
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
@@ -202,7 +233,6 @@ public class BookIntegrationTest {
                 "Shkelqimi dhe Renia e shokut" + " " + "Zylo",
                 "Roman","17/03/2024",10,
                 20,7);
-
         manager.addBooks(book);
 
         String start_date = "8/03/2024";
@@ -217,10 +247,10 @@ public class BookIntegrationTest {
         String expected = """
     [ISBN=9001101 author=Leon Tolstoi title=Ana Karenina book_category=Roman 
     purchased_date=13/03/2024 purchased_price=13.0 stock=35, ISBN=134367yu 
-    author=Dritero Agolli title=Shkelqimi dhe Renia e shokut Zylo 
-    book_category=Roman purchased_date=16/03/2024 purchased_price=10.0 stock=37, 
-    ISBN=18211821 author=Shekspiri title=Hamleti book_category=Drame 
-    purchased_date=16/03/2024 purchased_price=10.0 stock=7]""";
+    author=Dritero Agolli title=Shkelqimi dhe Renia e shokut Zylo book_category=Roman 
+    purchased_date=16/03/2024 purchased_price=10.0 stock=81, ISBN=18211821 
+    author=Shekspiri title=Hamleti book_category=Drame purchased_date=16/03/2024 
+    purchased_price=10.0 stock=19]""";
 
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
@@ -267,9 +297,9 @@ public class BookIntegrationTest {
         String expected = """
                [ISBN=134367yu author=Dritero Agolli title=Shkelqimi dhe Renia e shokut Zylo
                book_category=Roman
-               purchased_date=16/03/2024 purchased_price=10.0 stock=45,
+               purchased_date=16/03/2024 purchased_price=10.0 stock=89,
                ISBN=18211821 author=Shekspiri title=Hamleti book_category=Drame 
-               purchased_date=16/03/2024 purchased_price=10.0 stock=7]""";
+               purchased_date=16/03/2024 purchased_price=10.0 stock=19]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
         assertEquals(expected,actual);
@@ -282,13 +312,13 @@ public class BookIntegrationTest {
 
         librarian.Bill("17/04/2024",
                 "Shkelqimi dhe Renia e shokut" + " " +
-                        "Zylo",1);
+                        "Zylo",1); //88
 
         String start_date = "2/03/2024";
         String end_date = "17/04/2024"; // min and max dates stored
         // in file included
 
-        double expected_income = 470.0;
+        double expected_income = 470.0; //470
 
         assertEquals(expected_income, manager.certain_period_incomes(start_date,
                 end_date),0.1);
@@ -301,7 +331,7 @@ public class BookIntegrationTest {
 
         librarian.Bill("17/04/2024",
                 "Shkelqimi dhe Renia e shokut" + " " +
-                        "Zylo",7);
+                        "Zylo",7); // 81 books
         String start_date = "18/04/2024";
         String end_date = "1/05/2024"; // outside bounds dates
 
@@ -318,10 +348,10 @@ public class BookIntegrationTest {
 
         librarian.Bill("17/04/2024",
                 "Shkelqimi dhe Renia e shokut" + " " +
-                        "Zylo",7);
+                        "Zylo",7); // 74 books
 
         String date = "17/04/2024";
-        double expected_incomes = 380.0;
+        double expected_incomes = 380.0; //380
 
         assertEquals(expected_incomes, manager.daily_incomes(date), 0.1);
     }
@@ -331,11 +361,11 @@ public class BookIntegrationTest {
             IOException, ParseException, BillNotFoundException,
             BookNotFoundException {
 
-        /*librarian.Bill("17/04/2024",
+        librarian.Bill("17/04/2024",
                 "Shkelqimi dhe Renia e shokut" + " " +
-                        "Zylo",14);*/
+                        "Zylo",14); // 60 books
 
-        double expected_incomes = 1030.0;
+        double expected_incomes = 1030.0; //1030
 
         assertEquals(expected_incomes, manager.incomes_Without_filters(), 0.1);
     }
@@ -343,8 +373,10 @@ public class BookIntegrationTest {
     @Test
     public void test_for_profits() throws DateNotValidException,
             ParseException, IOException, ClassNotFoundException,
-            BillNotFoundException {
+            BillNotFoundException, BookNotFoundException {
 
+        librarian.Bill("17/04/2024",
+                "Hamleti",2); // 17 books
         // lower bound
         String start_date = "2/03/2024";
         String end_date = "2/03/2024";
@@ -356,14 +388,50 @@ public class BookIntegrationTest {
     @Test
     public void test_for_profits2() throws DateNotValidException,
             ParseException, IOException, ClassNotFoundException,
-            BillNotFoundException {
+            BillNotFoundException, BookNotFoundException {
+
+        librarian.Bill("17/04/2024",
+                "Shkelqimi dhe Renia e shokut" + " " +
+                        "Zylo",16);
+        librarian.Bill("17/04/2024",
+                "Hamleti",2);// 15 books
 
         // lower bound and upper bound
         String start_date = "2/03/2024";
         String end_date = "17/04/2024";
 
         double profit = manager.profit(start_date,end_date);
-        assertEquals(-125,profit,0.1);
+        assertEquals(-105,profit,0.1);
+    }
+
+    @Test
+    public void testInvalidBookAddition() throws ISBNnotValidException, IOException {
+        // Test adding a book with invalid details (e.g., empty ISBN).
+        Book invalidBook = new Book("", "Unknown Author", "", "Unknown", "01/01/2025", 0, -10.0, 0);
+        ISBNnotValidException exception = assertThrows(ISBNnotValidException.class, () -> {
+            manager.addBooks(invalidBook);
+        });
+        assertEquals("ISBN should be at least 6 characters long and no longer than 13 characters long", exception.getMessage());
+    }
+
+    @Test
+    public void testOverSellingStock() throws IOException, ISBNnotValidException, DateNotValidException, BookNotFoundException, ClassNotFoundException, ParseException {
+
+        // Test attempting to sell more copies of a book than are in stock.
+        Book book = new Book("999111", "Author", "Out of Stock Book",
+                "Drama", "01/01/2025",
+                5, 10.0, 0);
+
+
+        IOException exception1 = assertThrows(IOException.class, () -> {
+            manager.addBooks(book);
+        });
+        assertEquals("Stock cannot be less than one when you add a book",
+                exception1.getMessage());
+
+
     }
 
 }
+
+
