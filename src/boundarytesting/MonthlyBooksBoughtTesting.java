@@ -2,39 +2,51 @@ package boundarytesting;
 import book.Book;
 import exceptions.BookNotFoundException;
 import exceptions.DateNotValidException;
+import exceptions.ISBNnotValidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import useraccess.Librarian;
 import useraccess.Manager;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 
 public class MonthlyBooksBoughtTesting {
 
     private Manager manager;
+    private Librarian librarian;
 
     @BeforeEach
     public void setUp() throws BookNotFoundException, IOException,
             ClassNotFoundException {
-        manager = new Manager();
+        manager = mock(Manager.class);
+        librarian = mock(Librarian.class);
     }
 
     @Test
     public void test_with_equal_dates_within_bounds() throws DateNotValidException, IOException,
-            ParseException, BookNotFoundException, ClassNotFoundException
-    {
+            ParseException, BookNotFoundException, ClassNotFoundException,
+            ISBNnotValidException {
+
         String start_date = "23/02/2024";
         String end_date = "23/02/2024"; // first date in file
 
-        ArrayList<Book> actual_value = this.manager.
-                Monthly_Statistics_of_BooksBought(start_date,end_date);
-        String expected = """
-               [ISBN=111aaa author=Albert Kamy title=I huaji book_category=Roman 
-               purchased_date=23/02/2024 purchased_price=10.0 stock=4]""";
-        expected = expected.trim().replaceAll("\\s+", " ");
-        String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
-        assertEquals(expected, actual);
+
+        when(this.librarian.getBooks()).thenReturn(new ArrayList<>(Arrays.asList(
+                new Book("111aaa", "Albert Kamy", "I huaji",
+                        "Roman", "23/02/2024",
+                        10.0, 20, 4)
+        )));
+
+        assertEquals("[ISBN=111aaa author=Albert Kamy title=I huaji " +
+                        "book_category=Roman " +
+                        "purchased_date=23/02/2024 purchased_price=10.0 stock=4]",
+                manager.Monthly_Statistics_of_BooksBought(start_date,end_date));
+
     }
 
     @Test
@@ -48,7 +60,7 @@ public class MonthlyBooksBoughtTesting {
         ArrayList<Book> actual_value = this.manager.
                 Monthly_Statistics_of_BooksBought(start_date,end_date);
         String expected = """
-                [ISBN=9001101 author=Leon Tolstoi 
+                [ISBN=9001101 author=Leon Tolstoi
                 title=Ana Karenina
                 book_category=Roman purchased_date=13/03/2024
                 purchased_price=13.0 stock=35]""";
@@ -67,10 +79,10 @@ public class MonthlyBooksBoughtTesting {
         ArrayList<Book> actual_value = this.manager.
                 Monthly_Statistics_of_BooksBought(start_date,end_date);
         String expected = """
-                [ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim 
-                book_category=Roman purchased_date=03/03/2024 purchased_price=10.0 
-                stock=13, ISBN=70000000 author=Miguel De Servantes 
-                title=Don Kishoti book_category=Roman purchased_date=03/03/2024 
+                [ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim
+                book_category=Roman purchased_date=03/03/2024 purchased_price=10.0
+                stock=13, ISBN=70000000 author=Miguel De Servantes
+                title=Don Kishoti book_category=Roman purchased_date=03/03/2024
                 purchased_price=20.0 stock=17]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
@@ -121,11 +133,11 @@ public class MonthlyBooksBoughtTesting {
         ArrayList<Book> actual_value = this.manager.Monthly_Statistics_of_BooksBought(start_date, end_date);
 
         String expected = """
-           [ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim 
-           book_category=Roman purchased_date=03/03/2024 
-           purchased_price=10.0 stock=13, ISBN=70000000 
-           author=Miguel De Servantes title=Don Kishoti 
-           book_category=Roman purchased_date=03/03/2024 
+           [ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim
+           book_category=Roman purchased_date=03/03/2024
+           purchased_price=10.0 stock=13, ISBN=70000000
+           author=Miguel De Servantes title=Don Kishoti
+           book_category=Roman purchased_date=03/03/2024
            purchased_price=20.0 stock=17]""";
 
         expected = expected.trim().replaceAll("\\s+", " ");
@@ -148,11 +160,11 @@ public class MonthlyBooksBoughtTesting {
         ArrayList<Book> actual_value = this.manager.
                 Monthly_Statistics_of_BooksBought(start_date,end_date);
         String expected = """
-    [ISBN=111aaa author=Albert Kamy title=I huaji book_category=Roman 
-    purchased_date=23/02/2024 purchased_price=10.0 stock=4, 
-    ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim 
-    book_category=Roman purchased_date=03/03/2024 purchased_price=10.0 stock=13, 
-    ISBN=70000000 author=Miguel De Servantes title=Don Kishoti book_category=Roman 
+    [ISBN=111aaa author=Albert Kamy title=I huaji book_category=Roman
+    purchased_date=23/02/2024 purchased_price=10.0 stock=4,
+    ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim
+    book_category=Roman purchased_date=03/03/2024 purchased_price=10.0 stock=13,
+    ISBN=70000000 author=Miguel De Servantes title=Don Kishoti book_category=Roman
     purchased_date=03/03/2024 purchased_price=20.0 stock=17]""";
 
         expected = expected.trim().replaceAll("\\s+", " ");
@@ -172,9 +184,9 @@ public class MonthlyBooksBoughtTesting {
         ArrayList<Book> actual_value = this.manager.
                 Monthly_Statistics_of_BooksBought(start_date,end_date);
         String expected = """
-        [ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim 
-        book_category=Roman purchased_date=03/03/2024 purchased_price=10.0 stock=13, 
-        ISBN=70000000 author=Miguel De Servantes title=Don Kishoti book_category=Roman 
+        [ISBN=144ty58 author=Fjodor Dostojevski title=Krim dhe ndeshkim
+        book_category=Roman purchased_date=03/03/2024 purchased_price=10.0 stock=13,
+        ISBN=70000000 author=Miguel De Servantes title=Don Kishoti book_category=Roman
         purchased_date=03/03/2024 purchased_price=20.0 stock=17]""";
         expected = expected.trim().replaceAll("\\s+", " ");
         String actual = actual_value.toString().trim().replaceAll("\\s+", " ");
@@ -192,13 +204,13 @@ public class MonthlyBooksBoughtTesting {
         ArrayList<Book> actual_value = this.manager.
                 Monthly_Statistics_of_BooksBought(start_date,end_date);
         String expected = """
-      [ISBN=111aaa author=Albert Kamy title=I huaji book_category=Roman 
-      purchased_date=23/02/2024 purchased_price=10.0 stock=4, ISBN=144ty58 
-      author=Fjodor Dostojevski title=Krim dhe ndeshkim book_category=Roman 
-      purchased_date=03/03/2024 purchased_price=10.0 stock=13, ISBN=70000000 
-      author=Miguel De Servantes title=Don Kishoti book_category=Roman 
-      purchased_date=03/03/2024 purchased_price=20.0 stock=17, ISBN=9001101 
-      author=Leon Tolstoi title=Ana Karenina book_category=Roman 
+      [ISBN=111aaa author=Albert Kamy title=I huaji book_category=Roman
+      purchased_date=23/02/2024 purchased_price=10.0 stock=4, ISBN=144ty58
+      author=Fjodor Dostojevski title=Krim dhe ndeshkim book_category=Roman
+      purchased_date=03/03/2024 purchased_price=10.0 stock=13, ISBN=70000000
+      author=Miguel De Servantes title=Don Kishoti book_category=Roman
+      purchased_date=03/03/2024 purchased_price=20.0 stock=17, ISBN=9001101
+      author=Leon Tolstoi title=Ana Karenina book_category=Roman
       purchased_date=13/03/2024 purchased_price=13.0 stock=35]""";
 
         expected = expected.trim().replaceAll("\\s+", " ");
